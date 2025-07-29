@@ -1,0 +1,29 @@
+.seven-day-container {
+    .challenge-card {
+        border-radius: 12px;
+        transition: all 0.3s ease-in-out;
+
+        &.completed {
+            background-color: #e6ffed;
+            border: 1px solid #28a745;
+        }
+
+        &.pending {
+            background-color: #fffef2;
+            border: 1px solid #ffc107;
+        }
+
+        .emoji {
+            font-size: 28px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
+        .proof-img {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+    }
+}

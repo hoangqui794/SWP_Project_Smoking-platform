@@ -1,0 +1,281 @@
+.pageWrapper {
+    background-color: #f5f7fa;
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.profileContainer {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    @media (max-width: 992px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.profileMainCard {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    position: relative;
+}
+
+.coverImage {
+    height: 120px;
+    background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
+    position: relative;
+}
+
+.avatarWrapper {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(30%);
+    bottom: 0;
+}
+
+.avatarImage {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    background: white;
+}
+
+.activeStatus {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: #4CAF50;
+    color: white;
+    border-radius: 50%;
+    padding: 8px;
+    border: 3px solid white;
+    font-size: 1.2rem;
+}
+
+.mainInfo {
+    margin-top: 80px;
+    text-align: center;
+    padding: 0 1.5rem;
+}
+
+.coachName {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.coachRole {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+
+    .roleIcon {
+        color: #ffd700;
+    }
+}
+
+.yourCoachBadge {
+    background: #4CAF50;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.statusIndicator {
+    margin-bottom: 1.5rem;
+
+    span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+
+        &.active {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        &.inactive {
+            background: #ffebee;
+            color: #c62828;
+        }
+    }
+}
+
+.actionSection {
+    padding: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+.actionButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.actionBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100%;
+    border: none;
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+
+    &.bookBtn {
+        background: #2196f3;
+        color: white;
+    }
+
+    &.cancelBtn {
+        background: #f44336;
+        color: white;
+    }
+
+    &.chooseBtn {
+        background: #4CAF50;
+        color: white;
+    }
+}
+
+.detailsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.detailCard {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.cardHeader {
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+}
+
+.cardBody {
+    padding: 1.5rem;
+}
+
+.description {
+    color: #666;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.infoItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+
+    >svg {
+        color: #666;
+        margin-top: 4px;
+    }
+
+    >div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .label {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .value {
+        color: #2c3e50;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+}
+
+.warningAlert {
+    border-radius: 10px;
+    margin: 0;
+}
+
+.verifyBadge {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    z-index: 2;
+}
+
+.verifyIcon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00c853 0%, #009624 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0, 200, 83, 0.3);
+    animation: pulse 2s infinite;
+
+    svg {
+        font-size: 16px;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(0, 200, 83, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 200, 83, 0);
+    }
+}

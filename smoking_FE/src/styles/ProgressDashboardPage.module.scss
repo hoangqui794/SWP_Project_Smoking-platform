@@ -1,0 +1,148 @@
+// Màu nền chủ đạo
+$main-bg: #232d2d;
+$card-bg: #2d3a3a;
+$accent: #4caf50;
+$text-main: #fff;
+$text-muted: #b0b0b0;
+$circle-bg: rgba(255, 255, 255, 0.08);
+
+.dashboard-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #232d2d 0%, #284343 100%);
+    padding-top: 48px;
+    padding-bottom: 48px;
+}
+
+.progress-card {
+    background: $card-bg;
+    color: $text-main;
+    border-radius: 24px;
+    box-shadow: 0 6px 32px rgba(44, 66, 66, 0.2);
+    overflow: hidden;
+}
+
+.progress-title {
+    color: $text-muted;
+    letter-spacing: 2px;
+    font-weight: 500;
+    margin-bottom: 32px;
+}
+
+.days-circle {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 6px solid $accent;
+    background: $circle-bg;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 40px auto;
+    box-shadow: 0 0 20px 1px rgba(76, 175, 80, 0.1);
+    transition: box-shadow 0.3s;
+
+    h1 {
+        font-size: 66px;
+        font-weight: 800;
+        color: $accent;
+        margin-bottom: 0;
+        margin-top: 0;
+        letter-spacing: 2px;
+    }
+
+    p {
+        margin: 0;
+        color: $text-main;
+        font-weight: 400;
+        font-size: 22px;
+        letter-spacing: 1px;
+    }
+}
+
+.progress-stats-row {
+    margin-top: 20px;
+
+    .stat-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .icon {
+            font-size: 2.6rem;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 2px 2px #181d1d66);
+        }
+
+        h3 {
+            font-weight: 700;
+            margin-bottom: 0;
+            color: $accent;
+        }
+
+        p {
+            color: $text-muted;
+            font-size: 0.98rem;
+            margin-bottom: 0;
+        }
+    }
+}
+
+.relapse-btn {
+    margin-top: 36px;
+    font-weight: 600;
+    padding: 12px 32px;
+    border-radius: 16px;
+    border: 2px solid $accent;
+    color: $accent;
+    background: transparent;
+    transition: background 0.2s, color 0.2s;
+
+    &:hover,
+    &:focus {
+        background: $accent;
+        color: $main-bg;
+        border-color: $accent;
+    }
+}
+
+// Modal tùy chỉnh
+.custom-modal .modal-content {
+    border-radius: 18px;
+    background: #233636;
+    color: $text-main;
+    border: none;
+    box-shadow: 0 6px 32px rgba(44, 66, 66, 0.20);
+}
+
+.custom-modal .modal-header {
+    border-bottom: 1px solid #2d3a3a;
+}
+
+.custom-modal .modal-title {
+    color: $accent;
+    font-weight: 700;
+}
+
+.custom-modal .modal-footer {
+    border-top: 1px solid #2d3a3a;
+}
+
+@media (max-width: 600px) {
+    .days-circle {
+        width: 110px;
+        height: 110px;
+
+        h1 {
+            font-size: 34px;
+        }
+
+        p {
+            font-size: 14px;
+        }
+    }
+
+    .progress-card {
+        padding: 1rem !important;
+    }
+}

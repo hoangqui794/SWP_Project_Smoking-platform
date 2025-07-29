@@ -1,0 +1,210 @@
+// MilestonesPage Styles
+.milestones-page {
+    .milestone-card {
+        transition: all 0.3s ease;
+        border-radius: 12px;
+        overflow: hidden;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        &.completed {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f9f0 100%);
+            border-left: 4px solid #28a745;
+        }
+    }
+
+    .progress-circle {
+        position: relative;
+
+        &.completed {
+            animation: pulse 2s infinite;
+        }
+    }
+
+    .group-filter-btn {
+        transition: all 0.2s ease;
+        border-radius: 25px;
+
+        &:hover {
+            transform: translateY(-1px);
+        }
+
+        &.active {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            border: none;
+            color: white;
+        }
+    }
+
+    .timeline-progress {
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 20px;
+
+            &:before {
+                content: '';
+                position: absolute;
+                left: 8px;
+                top: 20px;
+                bottom: -20px;
+                width: 2px;
+                background: #e9ecef;
+            }
+
+            &.completed:before {
+                background: linear-gradient(to bottom, #28a745, #20c997);
+            }
+
+            .timeline-marker {
+                position: absolute;
+                left: 0;
+                top: 5px;
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                background: #e9ecef;
+                border: 3px solid white;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            &.completed .timeline-marker {
+                background: #28a745;
+                animation: bounce 0.6s ease-in-out;
+            }
+        }
+    }
+
+    .stats-overview {
+        .stat-card {
+            border-radius: 15px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: translateY(-3px);
+            }
+
+            &.success {
+                background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            }
+
+            &.info {
+                background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
+            }
+
+            &.warning {
+                background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            }
+        }
+    }
+
+    .milestone-description {
+        .read-more-btn {
+            background: none;
+            border: none;
+            color: #007bff;
+            font-size: 0.85rem;
+            padding: 0;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+                color: #0056b3;
+            }
+        }
+    }
+
+    .modal-milestone {
+        .modal-content {
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            border-radius: 20px 20px 0 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .progress-showcase {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+    }
+}
+
+// Animations
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    53%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40%,
+    43% {
+        transform: translateY(-8px);
+    }
+
+    70% {
+        transform: translateY(-4px);
+    }
+
+    90% {
+        transform: translateY(-2px);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .milestones-page {
+        .stats-overview {
+            .stat-card {
+                margin-bottom: 15px;
+            }
+        }
+
+        .group-filter-btn {
+            margin: 5px !important;
+            font-size: 0.9rem;
+        }
+
+        .milestone-card {
+            margin-bottom: 15px;
+        }
+    }
+}

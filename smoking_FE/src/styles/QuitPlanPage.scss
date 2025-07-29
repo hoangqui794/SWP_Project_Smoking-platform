@@ -1,0 +1,928 @@
+// Variables
+$thq-colors: (
+    'primary': #3da679,
+    'secondary': #7fb9a2,
+    'accent': #2d6a4f,
+    'light': #e8f5e9,
+    'background': #f8faf8,
+    'text': #2c4a3e,
+    'border': #a5d6b7,
+    'white': #ffffff,
+    'shadow': rgba(61, 166, 121, 0.1),
+    'card-shadow': rgba(0, 0, 0, 0.05),
+    'hover-shadow': rgba(61, 166, 121, 0.2)
+);
+
+// Mixins
+@mixin thq-card-shadow {
+    box-shadow:
+        0 4px 6px -1px map-get($thq-colors, 'shadow'),
+        0 2px 4px -2px map-get($thq-colors, 'card-shadow');
+}
+
+@mixin thq-card-shadow-hover {
+    box-shadow:
+        0 8px 25px -5px map-get($thq-colors, 'hover-shadow'),
+        0 10px 10px -5px map-get($thq-colors, 'card-shadow');
+}
+
+@mixin thq-transition {
+    transition: all 0.3s ease;
+}
+
+@mixin thq-gradient-bg {
+    background: linear-gradient(135deg,
+            map-get($thq-colors, 'primary'),
+            map-get($thq-colors, 'secondary'));
+}
+
+// Modern Section Styles
+.modern-section {
+    background: map-get($thq-colors, 'white');
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    @include thq-card-shadow;
+    @include thq-transition;
+
+    &:hover {
+        @include thq-card-shadow-hover;
+        transform: translateY(-2px);
+    }
+
+    .section-header {
+        @include thq-gradient-bg;
+        color: white;
+        padding: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .section-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            h3 {
+                margin: 0 0 0.5rem 0;
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+
+            p {
+                margin: 0;
+                opacity: 0.9;
+                font-size: 1rem;
+                line-height: 1.4;
+            }
+        }
+    }
+
+    .form-grid {
+        padding: 2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .goal-form {
+        padding: 2rem;
+    }
+
+    .input-group-modern {
+        .input-label {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            color: map-get($thq-colors, 'text');
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+
+            .label-icon {
+                margin-right: 0.5rem;
+                color: map-get($thq-colors, 'primary');
+            }
+
+            &.required::after {
+                content: ' *';
+                color: #dc3545;
+            }
+        }
+
+        .input-wrapper {
+            position: relative;
+
+            .modern-input {
+                border: 2px solid map-get($thq-colors, 'border');
+                border-radius: 12px;
+                padding: 1rem 1.25rem;
+                font-size: 1rem;
+                background: map-get($thq-colors, 'white');
+                @include thq-transition;
+
+                &:focus {
+                    border-color: map-get($thq-colors, 'primary');
+                    box-shadow: 0 0 0 3px rgba(map-get($thq-colors, 'primary'), 0.1);
+                    outline: none;
+                }
+
+                &:disabled,
+                &.disabled {
+                    background-color: map-get($thq-colors, 'light');
+                    border-color: rgba(map-get($thq-colors, 'border'), 0.5);
+                    color: rgba(map-get($thq-colors, 'text'), 0.6);
+                }
+            }
+
+            .input-unit {
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                color: rgba(map-get($thq-colors, 'text'), 0.6);
+                font-size: 0.9rem;
+                font-weight: 500;
+                pointer-events: none;
+            }
+        }
+    }
+
+    // Cost Summary
+    .cost-summary {
+        margin-top: 2rem;
+        padding: 2rem;
+        background: linear-gradient(135deg,
+                rgba(map-get($thq-colors, 'primary'), 0.05),
+                rgba(map-get($thq-colors, 'secondary'), 0.05));
+        border-top: 3px solid map-get($thq-colors, 'primary');
+
+        .cost-title {
+            text-align: center;
+            color: map-get($thq-colors, 'text');
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .cost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .cost-item {
+            background: map-get($thq-colors, 'white');
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            @include thq-card-shadow;
+            @include thq-transition;
+            border: 2px solid transparent;
+
+            &:hover {
+                transform: translateY(-3px);
+                @include thq-card-shadow-hover;
+                border-color: map-get($thq-colors, 'primary');
+            }
+
+            .cost-period {
+                font-size: 0.9rem;
+                color: rgba(map-get($thq-colors, 'text'), 0.7);
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+
+            .cost-amount {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: map-get($thq-colors, 'primary');
+            }
+
+            &.daily {
+                border-left: 4px solid #28a745;
+            }
+
+            &.weekly {
+                border-left: 4px solid #ffc107;
+            }
+
+            &.monthly {
+                border-left: 4px solid #fd7e14;
+            }
+
+            &.yearly {
+                border-left: 4px solid #dc3545;
+            }
+        }
+    }
+
+    // Duration Selector
+    .duration-selector {
+        .input-label {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            color: map-get($thq-colors, 'text');
+            margin-bottom: 1rem;
+            font-size: 1rem;
+
+            .label-icon {
+                margin-right: 0.5rem;
+                color: map-get($thq-colors, 'primary');
+            }
+        }
+
+        .duration-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .duration-card {
+            background: map-get($thq-colors, 'white');
+            border: 2px solid map-get($thq-colors, 'border');
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            @include thq-transition;
+
+            &:hover {
+                border-color: map-get($thq-colors, 'primary');
+                background: rgba(map-get($thq-colors, 'primary'), 0.02);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(map-get($thq-colors, 'primary'), 0.15);
+            }
+
+            &.active {
+                border-color: map-get($thq-colors, 'primary');
+                background: rgba(map-get($thq-colors, 'primary'), 0.05);
+                @include thq-card-shadow-hover;
+
+                .duration-main {
+                    color: map-get($thq-colors, 'primary');
+                }
+            }
+
+            .duration-main {
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: map-get($thq-colors, 'text');
+                margin-bottom: 0.5rem;
+            }
+
+            .duration-desc {
+                font-size: 0.9rem;
+                color: rgba(map-get($thq-colors, 'text'), 0.6);
+                margin-bottom: 1rem;
+            }
+
+            .duration-radio {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+
+                .form-check-input {
+                    border-color: map-get($thq-colors, 'border');
+                    border-width: 2px;
+
+                    &:checked {
+                        background-color: map-get($thq-colors, 'primary');
+                        border-color: map-get($thq-colors, 'primary');
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Delete Modal
+.thq-delete-modal {
+    .modal-content {
+        border-radius: 20px;
+        border: none;
+        @include thq-card-shadow-hover;
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+        border-radius: 20px 20px 0 0;
+
+        .modal-title {
+            font-weight: 600;
+        }
+
+        .btn-close {
+            filter: brightness(0) invert(1);
+        }
+    }
+
+    .modal-body {
+        background: map-get($thq-colors, 'white');
+    }
+
+    .modal-footer {
+        background: map-get($thq-colors, 'white');
+        border-radius: 0 0 20px 20px;
+    }
+}
+
+// Main Page Styles
+.thq-quit-plan {
+    background: linear-gradient(135deg,
+            map-get($thq-colors, 'background') 0%,
+            lighten(map-get($thq-colors, 'light'), 2%) 50%,
+            map-get($thq-colors, 'white') 100%);
+    min-height: 100vh;
+    padding: 2rem 0 4rem 0;
+
+    .thq-header {
+        margin-bottom: 3rem;
+
+        &-icon {
+            animation: bounce 2s infinite;
+        }
+
+        &__title {
+            color: map-get($thq-colors, 'text');
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, map-get($thq-colors, 'primary'), map-get($thq-colors, 'accent'));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        &__subtitle {
+            color: rgba(map-get($thq-colors, 'text'), 0.7);
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    }
+
+    .thq-status-badge {
+        margin-top: 1.5rem;
+
+        .badge {
+            border-radius: 25px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+        }
+    }
+
+    // Progress Steps
+    .thq-progress-steps {
+        margin-bottom: 2.5rem;
+
+        .thq-step {
+            text-align: center;
+            position: relative;
+
+            &:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 20px;
+                right: -50%;
+                width: 100%;
+                height: 2px;
+                background: linear-gradient(to right, map-get($thq-colors, 'primary'), map-get($thq-colors, 'secondary'));
+                z-index: 0;
+            }
+
+            &-icon {
+                width: 40px;
+                height: 40px;
+                @include thq-gradient-bg;
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 0.5rem auto;
+                font-size: 1rem;
+                position: relative;
+                z-index: 1;
+                @include thq-transition;
+            }
+
+            &-title {
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: map-get($thq-colors, 'text');
+            }
+
+            &.active .thq-step-icon {
+                transform: scale(1.1);
+                box-shadow: 0 2px 8px map-get($thq-colors, 'hover-shadow');
+            }
+        }
+    }
+
+    .thq-card {
+        @include thq-card-shadow;
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        background: map-get($thq-colors, 'white');
+        @include thq-transition;
+
+        &:hover {
+            @include thq-card-shadow-hover;
+            transform: translateY(-2px);
+        }
+
+        &__header {
+            @include thq-gradient-bg;
+            color: map-get($thq-colors, 'white');
+            padding: 1.5rem;
+            font-weight: 600;
+            border: none;
+
+            h4,
+            h5 {
+                margin: 0;
+                font-size: 1.25rem;
+            }
+
+            p {
+                margin: 0;
+                opacity: 0.9;
+                font-size: 0.95rem;
+            }
+        }
+
+        &__body {
+            padding: 2rem;
+        }
+    }
+
+    // Special styling for survey card
+    .thq-survey-card {
+        .thq-question-card {
+            background: lighten(map-get($thq-colors, 'light'), 3%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(map-get($thq-colors, 'border'), 0.3);
+            @include thq-transition;
+
+            &:hover {
+                background: map-get($thq-colors, 'white');
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            }
+        }
+
+        .thq-options-container {
+            margin-top: 1rem;
+        }
+
+        .thq-option-item {
+            margin-bottom: 0.75rem;
+
+            .form-check {
+                padding: 0.75rem;
+                border-radius: 10px;
+                @include thq-transition;
+
+                &:hover {
+                    background: rgba(map-get($thq-colors, 'primary'), 0.05);
+                }
+            }
+        }
+
+        .thq-other-input-wrapper {
+            margin-left: 2rem;
+
+            .thq-other-input {
+                border-radius: 8px;
+                border-color: map-get($thq-colors, 'border');
+            }
+        }
+    }
+
+    .thq-form {
+        &__group {
+            margin-bottom: 1.5rem;
+        }
+
+        &__label {
+            color: map-get($thq-colors, 'text');
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        &__control {
+            border: 2px solid map-get($thq-colors, 'border');
+            border-radius: 12px;
+            padding: 0.875rem 1.25rem;
+            font-size: 1rem;
+            @include thq-transition;
+
+            &:focus {
+                border-color: map-get($thq-colors, 'primary');
+                box-shadow: 0 0 0 3px rgba(map-get($thq-colors, 'primary'), 0.1);
+                outline: none;
+            }
+
+            &:disabled {
+                background-color: map-get($thq-colors, 'light');
+                border-color: rgba(map-get($thq-colors, 'border'), 0.5);
+                color: rgba(map-get($thq-colors, 'text'), 0.6);
+            }
+        }
+
+        &__check {
+            .form-check-input {
+                border-color: map-get($thq-colors, 'border');
+                border-width: 2px;
+
+                &:checked {
+                    background-color: map-get($thq-colors, 'primary');
+                    border-color: map-get($thq-colors, 'primary');
+                }
+
+                &:focus {
+                    box-shadow: 0 0 0 2px rgba(map-get($thq-colors, 'primary'), 0.2);
+                }
+            }
+
+            .form-check-label {
+                color: map-get($thq-colors, 'text');
+                font-weight: 500;
+                line-height: 1.5;
+            }
+        }
+    }
+
+    .thq-alert {
+        background: linear-gradient(135deg,
+                lighten(map-get($thq-colors, 'light'), 2%),
+                map-get($thq-colors, 'light'));
+        border: 1px solid rgba(map-get($thq-colors, 'primary'), 0.2);
+        border-radius: 15px;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 1rem;
+        @include thq-transition;
+
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(map-get($thq-colors, 'primary'), 0.1);
+        }
+
+        &__content {
+            color: map-get($thq-colors, 'text');
+            font-weight: 500;
+
+            strong {
+                color: map-get($thq-colors, 'primary');
+                font-weight: 700;
+                font-size: 1.1em;
+            }
+        }
+    }
+
+    // Actions Section
+    .thq-actions-section {
+        margin-top: 3rem;
+        padding: 2rem;
+        background: rgba(map-get($thq-colors, 'light'), 0.3);
+        border-radius: 20px;
+        border: 1px solid rgba(map-get($thq-colors, 'border'), 0.2);
+    }
+
+    .thq-quick-actions {
+        h5 {
+            font-weight: 600;
+            color: rgba(map-get($thq-colors, 'text'), 0.8);
+        }
+    }
+
+    .thq-quick-action-btn {
+        border-radius: 15px;
+        padding: 1.25rem;
+        font-weight: 600;
+        @include thq-transition;
+        border: none;
+
+        &.btn-warning {
+            background: linear-gradient(135deg, #ffb347 0%, #ffcc33 100%);
+            color: #333;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(255, 204, 51, 0.3);
+            }
+        }
+
+        &.btn-success {
+            background: linear-gradient(135deg, #3CA55C 0%, #B5AC49 100%);
+            color: white;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(60, 165, 92, 0.3);
+            }
+        }
+    }
+
+    .thq-button {
+        padding: 1rem 2rem;
+        border-radius: 15px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        @include thq-transition;
+        border: none;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        &:hover::before {
+            left: 100%;
+        }
+
+        &--success {
+            @include thq-gradient-bg;
+            color: map-get($thq-colors, 'white');
+
+            &:hover:not(:disabled) {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(map-get($thq-colors, 'primary'), 0.3);
+            }
+        }
+
+        &--primary {
+            background: map-get($thq-colors, 'secondary');
+            color: map-get($thq-colors, 'white');
+
+            &:hover:not(:disabled) {
+                background: darken(map-get($thq-colors, 'secondary'), 8%);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(map-get($thq-colors, 'secondary'), 0.3);
+            }
+        }
+
+        &:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+    }
+
+    .thq-delete-btn {
+        @include thq-transition;
+
+        &:hover {
+            transform: translateY(-1px);
+        }
+    }
+
+    .thq-spinner {
+        color: map-get($thq-colors, 'white');
+    }
+}
+
+// Enhanced Cost Summary Styling
+.thq-cost-summary {
+    background: linear-gradient(135deg,
+            rgba(map-get($thq-colors, 'primary'), 0.05),
+            rgba(map-get($thq-colors, 'secondary'), 0.05));
+    border: 2px solid rgba(map-get($thq-colors, 'primary'), 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+
+    .cost-item {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(map-get($thq-colors, 'border'), 0.3);
+
+        &:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: map-get($thq-colors, 'primary');
+        }
+
+        .cost-label {
+            font-weight: 600;
+            color: map-get($thq-colors, 'text');
+        }
+
+        .cost-value {
+            font-weight: 700;
+            color: map-get($thq-colors, 'primary');
+            font-size: 1.05rem;
+        }
+    }
+}
+
+// Duration Selector
+.thq-duration-selector {
+    .duration-option {
+        margin-bottom: 0.75rem;
+
+        .form-check {
+            background: rgba(map-get($thq-colors, 'light'), 0.5);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            @include thq-transition;
+
+            &:hover {
+                background: rgba(map-get($thq-colors, 'primary'), 0.05);
+                border-color: rgba(map-get($thq-colors, 'primary'), 0.2);
+            }
+
+            .form-check-input:checked~.form-check-label {
+                color: map-get($thq-colors, 'primary');
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+// Animations
+@keyframes bounce {
+
+    0%,
+    20%,
+    53%,
+    80%,
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    40%,
+    43% {
+        transform: translate3d(0, -8px, 0);
+    }
+
+    70% {
+        transform: translate3d(0, -4px, 0);
+    }
+
+    90% {
+        transform: translate3d(0, -2px, 0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+    .thq-quit-plan {
+        padding: 1.5rem 0 3rem 0;
+
+        .thq-header {
+            margin-bottom: 2rem;
+
+            &__title {
+                font-size: 2rem;
+            }
+
+            &__subtitle {
+                font-size: 1.1rem;
+            }
+        }
+
+        .thq-progress-steps {
+            .thq-step {
+                &:not(:last-child)::after {
+                    display: none;
+                }
+
+                &-icon {
+                    width: 35px;
+                    height: 35px;
+                    font-size: 0.9rem;
+                }
+
+                &-title {
+                    font-size: 0.8rem;
+                }
+            }
+        }
+
+        .thq-card {
+            margin-bottom: 1.5rem;
+
+            &__header {
+                padding: 1.25rem;
+            }
+
+            &__body {
+                padding: 1.5rem;
+            }
+        }
+
+        .thq-actions-section {
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .thq-quick-action-btn {
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+    }
+
+    .modern-section {
+        .section-header {
+            padding: 1.5rem;
+
+            .section-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
+            }
+
+            .section-title h3 {
+                font-size: 1.25rem;
+            }
+        }
+
+        .form-grid {
+            padding: 1.5rem;
+            grid-template-columns: 1fr;
+        }
+
+        .goal-form {
+            padding: 1.5rem;
+        }
+
+        .cost-summary {
+            padding: 1.5rem;
+
+            .cost-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+        }
+
+        .duration-selector .duration-options {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .thq-quit-plan {
+        .thq-progress-steps {
+            .row>div {
+                margin-bottom: 1rem;
+            }
+        }
+
+        .thq-card__body {
+            padding: 1rem;
+        }
+
+        .thq-form__control {
+            padding: 0.75rem 1rem;
+        }
+    }
+
+    .modern-section {
+        .cost-summary .cost-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .duration-selector .duration-card {
+            padding: 1rem;
+        }
+    }
+}

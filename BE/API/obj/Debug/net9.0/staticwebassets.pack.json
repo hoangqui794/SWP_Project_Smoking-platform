@@ -1,0 +1,33 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\DOC\\ky5\\SWP391\\BE\\API\\wwwroot\\uploads\\challenge-images\\ccbe4107-77d4-4824-bea8-c87cb191a13b_NỀN ẢO ORT FALL 25.jpg",
+      "PackagePath": "staticwebassets\\uploads\\challenge-images\\ccbe4107-77d4-4824-bea8-c87cb191a13b_NỀN ẢO ORT FALL 25.jpg"
+    },
+    {
+      "Id": "D:\\DOC\\ky5\\SWP391\\BE\\API\\wwwroot\\uploads\\challenge-images\\e31ca903-83ab-4c49-9f8a-15b934d23ed8_NỀN ẢO ORT FALL 25.jpg",
+      "PackagePath": "staticwebassets\\uploads\\challenge-images\\e31ca903-83ab-4c49-9f8a-15b934d23ed8_NỀN ẢO ORT FALL 25.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.Smoking.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.Smoking.API.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.Smoking.API.props",
+      "PackagePath": "build\\Smoking.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.Smoking.API.props",
+      "PackagePath": "buildMultiTargeting\\Smoking.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.Smoking.API.props",
+      "PackagePath": "buildTransitive\\Smoking.API.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

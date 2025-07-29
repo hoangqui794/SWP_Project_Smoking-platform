@@ -1,0 +1,243 @@
+// Modern Footer Styles - Green/White Theme
+.modern-footer {
+    background: linear-gradient(135deg, #2c5530 0%, #1a3a1a 100%);
+    color: #ffffff;
+    margin-top: auto;
+    width: 100%;
+    box-sizing: border-box;
+
+    .footer-content {
+        padding: 60px 0 40px;
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .footer-sections {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 50px;
+
+            @media (max-width: 1024px) {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+
+            @media (max-width: 768px) {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
+            }
+        }
+
+        .footer-brand {
+            .footer-logo {
+                width: 60px;
+                height: auto;
+                margin-bottom: 15px;
+                filter: brightness(1.1);
+            }
+
+            h3 {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: #4CAF50;
+                margin-bottom: 15px;
+                letter-spacing: -0.5px;
+            }
+
+            p {
+                color: #b8d4ba;
+                line-height: 1.6;
+                margin-bottom: 25px;
+                font-size: 0.95rem;
+            }
+
+            .social-links {
+                display: flex;
+                gap: 15px;
+
+                @media (max-width: 768px) {
+                    justify-content: center;
+                }
+
+                .social-link {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 40px;
+                    height: 40px;
+                    background: rgba(76, 175, 80, 0.2);
+                    border: none;
+                    border-radius: 50%;
+                    color: #4CAF50;
+                    text-decoration: none;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: #4CAF50;
+                        color: #ffffff;
+                        transform: translateY(-3px);
+                        box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+                    }
+
+                    i {
+                        font-size: 1.1rem;
+                    }
+                }
+            }
+        }
+
+        .footer-section {
+            h4 {
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: #4CAF50;
+                margin-bottom: 20px;
+                position: relative;
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    bottom: -8px;
+                    width: 30px;
+                    height: 2px;
+                    background: #4CAF50;
+                    border-radius: 1px;
+
+                    @media (max-width: 768px) {
+                        left: 50%;
+                        transform: translateX(-50%);
+                    }
+                }
+            }
+
+            .footer-links {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+
+                li {
+                    margin-bottom: 12px;
+
+                    a {
+                        color: #b8d4ba;
+                        text-decoration: none;
+                        font-size: 0.9rem;
+                        transition: all 0.3s ease;
+                        display: inline-block;
+
+                        &:hover {
+                            color: #4CAF50;
+                            transform: translateX(5px);
+                        }
+                    }
+                }
+            }
+
+            .contact-info {
+                p {
+                    color: #b8d4ba;
+                    font-size: 0.9rem;
+                    line-height: 1.6;
+                    margin-bottom: 12px;
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 10px;
+
+                    @media (max-width: 768px) {
+                        justify-content: center;
+                        text-align: left;
+                    }
+
+                    i {
+                        color: #4CAF50;
+                        margin-top: 2px;
+                        font-size: 0.9rem;
+                        min-width: 16px;
+                    }
+                }
+            }
+        }
+    }
+
+    .footer-bottom {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 20px 0;
+        border-top: 1px solid rgba(76, 175, 80, 0.2);
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .footer-bottom-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            @media (max-width: 768px) {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            p {
+                color: #b8d4ba;
+                font-size: 0.9rem;
+                margin: 0;
+            }
+
+            .footer-bottom-links {
+                display: flex;
+                gap: 25px;
+
+                @media (max-width: 480px) {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+
+                a,
+                button {
+                    color: #b8d4ba;
+                    text-decoration: none;
+                    background: none;
+                    border: none;
+                    font-size: 0.85rem;
+                    transition: color 0.3s ease;
+                    cursor: pointer;
+                    padding: 0;
+                    font-family: inherit;
+
+                    &:hover {
+                        color: #4CAF50;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Ensure footer sticks to bottom
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}

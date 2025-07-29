@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.36105.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smoking.API", "API\Smoking.API.csproj", "{EDE6A9F4-4D5C-4F4B-824D-C21A3883351F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smoking.BLL", "BLL\Smoking.BLL.csproj", "{D4BC63B2-6062-4728-8C9E-C38C6EF3B2B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smoking.DAL", "DAL\Smoking.DAL.csproj", "{8FBF6767-87FE-4ADB-983C-5B9BDB6283F4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDE6A9F4-4D5C-4F4B-824D-C21A3883351F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDE6A9F4-4D5C-4F4B-824D-C21A3883351F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDE6A9F4-4D5C-4F4B-824D-C21A3883351F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDE6A9F4-4D5C-4F4B-824D-C21A3883351F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4BC63B2-6062-4728-8C9E-C38C6EF3B2B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4BC63B2-6062-4728-8C9E-C38C6EF3B2B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4BC63B2-6062-4728-8C9E-C38C6EF3B2B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4BC63B2-6062-4728-8C9E-C38C6EF3B2B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FBF6767-87FE-4ADB-983C-5B9BDB6283F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FBF6767-87FE-4ADB-983C-5B9BDB6283F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FBF6767-87FE-4ADB-983C-5B9BDB6283F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FBF6767-87FE-4ADB-983C-5B9BDB6283F4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {648524A3-A41B-475B-8854-3CDE9417D3E2}
+	EndGlobalSection
+EndGlobal

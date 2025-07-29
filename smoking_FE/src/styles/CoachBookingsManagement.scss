@@ -1,0 +1,556 @@
+// Variables - Green Theme
+$primary: #198754;
+$primary-light: #e8f5e8;
+$primary-dark: #146c43;
+$secondary: #6c757d;
+$warning: #ffc107;
+$warning-light: #fff3cd;
+$success: #198754;
+$info: #0dcaf0;
+$danger: #dc3545;
+$white: #ffffff;
+$light: #f8f9fa;
+$dark: #212529;
+$border-radius: 1rem;
+$transition: all 0.3s ease;
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+$shadow: 0 4px 16px rgba(25, 135, 84, 0.1), 0 2px 8px rgba(0, 0, 0, 0.04);
+$shadow-lg: 0 8px 32px rgba(25, 135, 84, 0.15), 0 4px 16px rgba(0, 0, 0, 0.08);
+
+// Page container - Clean Design
+.coach-bookings-management-page {
+    padding: 2rem 0;
+    min-height: 100vh;
+
+    .container {
+        max-width: 1400px;
+    }
+
+    // Typography - Modern & Clean
+    h2 {
+        color: $primary-dark;
+        font-weight: 700;
+        text-shadow: 0 1px 2px rgba(25, 135, 84, 0.1);
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        svg {
+            color: $primary;
+            filter: drop-shadow(0 2px 4px rgba(25, 135, 84, 0.2));
+        }
+    }
+
+    // Header Section
+    .header-section {
+        background: $white;
+        border-radius: $border-radius;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: $shadow;
+        border-left: 4px solid $primary;
+
+        .badge {
+            background: linear-gradient(135deg, $primary 0%, $primary-dark 100%) !important;
+            color: $white;
+            border-radius: 2rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);
+        }
+    }
+
+    // Cards
+    .card {
+        border: none;
+        border-radius: $border-radius;
+        box-shadow: $shadow;
+        background: $white;
+        overflow: hidden;
+        transition: $transition;
+
+        &:hover {
+            box-shadow: $shadow-lg;
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            color: $white;
+            border: none;
+            padding: 1.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+    }
+
+    // Table styling
+    .table {
+        border-radius: 0.75rem;
+        overflow: hidden;
+        box-shadow: none;
+        margin-bottom: 0;
+
+        thead th {
+            background: linear-gradient(135deg, $primary-light 0%, darken($primary-light, 5%) 100%);
+            color: $primary-dark;
+            font-weight: 600;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody {
+            tr {
+                transition: $transition;
+                border: none;
+
+                &:hover {
+                    background: $primary-light;
+                    transform: translateX(3px);
+                    box-shadow: 0 2px 8px rgba(25, 135, 84, 0.08);
+                }
+
+                td {
+                    padding: 1.25rem 1.5rem;
+                    border: none;
+                    vertical-align: middle;
+                    border-bottom: 1px solid rgba(25, 135, 84, 0.08);
+
+                    &:first-child {
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+
+    // Action buttons styling - Green Theme
+    .btn-action-detail {
+        background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+        border: none;
+        color: $white;
+        border-radius: 0.75rem;
+        font-weight: 500;
+        padding: 0.5rem 1.25rem;
+        font-size: 0.875rem;
+        transition: $transition;
+        box-shadow: 0 2px 8px rgba(25, 135, 84, 0.2);
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        min-width: 120px;
+        justify-content: center;
+
+        &:hover,
+        &:focus {
+            background: linear-gradient(135deg, $primary-dark 0%, darken($primary-dark, 10%) 100%);
+            box-shadow: 0 4px 16px rgba(25, 135, 84, 0.3);
+            transform: translateY(-1px);
+            color: $white;
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(25, 135, 84, 0.2);
+        }
+
+        svg {
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+        }
+    }
+
+    .btn-action-challenge {
+        background: linear-gradient(135deg, $info 0%, darken($info, 10%) 100%);
+        border: none;
+        color: $white;
+        border-radius: 0.75rem;
+        font-weight: 500;
+        padding: 0.5rem 1.25rem;
+        font-size: 0.875rem;
+        transition: $transition;
+        box-shadow: 0 2px 8px rgba(13, 202, 240, 0.2);
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        min-width: 120px;
+        justify-content: center;
+
+        &:hover,
+        &:focus {
+            background: linear-gradient(135deg, darken($info, 10%) 0%, darken($info, 20%) 100%);
+            box-shadow: 0 4px 16px rgba(13, 202, 240, 0.3);
+            transform: translateY(-1px);
+            color: $white;
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(13, 202, 240, 0.2);
+        }
+
+        svg {
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+        }
+    }
+
+    // General button improvements
+    .btn {
+        border-radius: 0.75rem;
+        font-weight: 500;
+        padding: 0.5rem 1.25rem;
+        transition: $transition;
+        border: none;
+
+        &.btn-primary {
+            background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+            box-shadow: 0 2px 8px rgba(13, 110, 253, 0.2);
+
+            &:hover,
+            &:focus {
+                background: linear-gradient(135deg, $primary-dark 0%, darken($primary-dark, 10%) 100%);
+                box-shadow: 0 4px 16px rgba(13, 110, 253, 0.3);
+                transform: translateY(-1px);
+            }
+        }
+
+        &.btn-success {
+            background: linear-gradient(135deg, $success 0%, $primary-dark 100%);
+            box-shadow: 0 2px 8px rgba(13, 110, 253, 0.2);
+
+            &:hover,
+            &:focus {
+                background: linear-gradient(135deg, $primary-dark 0%, darken($primary-dark, 10%) 100%);
+                box-shadow: 0 4px 16px rgba(13, 110, 253, 0.3);
+                transform: translateY(-1px);
+            }
+        }
+
+        &.btn-info {
+            background: linear-gradient(135deg, $info 0%, darken($info, 10%) 100%);
+            color: $white;
+            box-shadow: 0 2px 8px rgba(13, 202, 240, 0.2);
+
+            &:hover,
+            &:focus {
+                background: linear-gradient(135deg, darken($info, 10%) 0%, darken($info, 20%) 100%);
+                box-shadow: 0 4px 16px rgba(13, 202, 240, 0.3);
+                transform: translateY(-1px);
+                color: $white;
+            }
+        }
+
+        &.btn-outline-success,
+        &.btn-outline-primary {
+            border: 2px solid $primary;
+            color: $primary;
+            background: transparent;
+
+            &:hover,
+            &:focus {
+                background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+                border-color: $primary;
+                color: $white;
+                box-shadow: 0 4px 16px rgba(25, 135, 84, 0.3);
+                transform: translateY(-1px);
+            }
+        }
+
+        &.btn-outline-info {
+            border: 2px solid $info;
+            color: $info;
+            background: transparent;
+
+            &:hover,
+            &:focus {
+                background: linear-gradient(135deg, $info 0%, darken($info, 10%) 100%);
+                border-color: $info;
+                color: $white;
+                box-shadow: 0 4px 16px rgba(13, 202, 240, 0.3);
+                transform: translateY(-1px);
+            }
+        }
+
+        &.btn-outline-danger {
+            border: 2px solid $danger;
+            color: $danger;
+            background: transparent;
+
+            &:hover,
+            &:focus {
+                background: linear-gradient(135deg, $danger 0%, darken($danger, 10%) 100%);
+                border-color: $danger;
+                color: $white;
+                box-shadow: 0 4px 16px rgba(220, 53, 69, 0.3);
+                transform: translateY(-1px);
+            }
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+    }
+
+    // Button groups
+    .btn-group {
+        .btn {
+            margin-right: 0.5rem;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    // Badges
+    .badge {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+        border-radius: 1.25rem;
+        font-weight: 500;
+
+        &.bg-success {
+            background: linear-gradient(135deg, $primary 0%, $primary-dark 100%) !important;
+            box-shadow: 0 2px 8px rgba(25, 135, 84, 0.2);
+        }
+
+        &.bg-warning {
+            background: linear-gradient(135deg, $warning 0%, darken($warning, 10%) 100%) !important;
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+        }
+
+        &.bg-danger {
+            background: linear-gradient(135deg, $danger 0%, darken($danger, 10%) 100%) !important;
+            box-shadow: 0 2px 8px rgba(220, 53, 69, 0.2);
+        }
+
+        &.bg-primary {
+            background: linear-gradient(135deg, $primary 0%, $primary-dark 100%) !important;
+            box-shadow: 0 2px 8px rgba(13, 110, 253, 0.2);
+        }
+
+        &.bg-secondary {
+            background: linear-gradient(135deg, $secondary 0%, darken($secondary, 10%) 100%) !important;
+            box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2);
+        }
+    }
+
+    // Tab styling
+    .nav-tabs {
+        border: none;
+
+        .nav-link {
+            border: none;
+            color: $secondary;
+            font-weight: 500;
+            padding: 1rem 1.5rem;
+            transition: $transition;
+            border-radius: 0.75rem 0.75rem 0 0;
+            margin-right: 0.25rem;
+
+            &.active {
+                background: linear-gradient(135deg, $primary-light 0%, $white 100%);
+                border-bottom: 3px solid $primary;
+                color: $primary-dark;
+                font-weight: 600;
+            }
+
+            &:hover:not(.active) {
+                background: lighten($primary-light, 5%);
+                color: $primary;
+            }
+
+            .badge {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.5rem;
+            }
+        }
+    }
+
+    // Avatar
+    .avatar-sm {
+        width: 36px;
+        height: 36px;
+        font-size: 0.875rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+        color: $white;
+        box-shadow: 0 2px 8px rgba(13, 110, 253, 0.2);
+    }
+
+    // Empty state
+    .empty-state {
+        .empty-icon {
+            font-size: 3rem;
+            color: lighten($secondary, 20%);
+            margin-bottom: 1rem;
+        }
+
+        h5 {
+            color: $secondary;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: lighten($secondary, 10%);
+            font-size: 0.95rem;
+        }
+    }
+}
+
+// Modal styling - Global scope vì modal render outside container
+.modal {
+    .modal-header {
+        background: linear-gradient(135deg, #0d6efd 0%, #084298 100%);
+        color: #ffffff;
+        border: none;
+        border-radius: 1rem 1rem 0 0;
+        padding: 1.5rem 2rem;
+
+        .modal-title {
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .btn-close {
+            filter: invert(1);
+            opacity: 0.8;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        &.bg-light {
+            background: #f8f9fa !important;
+            color: #495057 !important;
+
+            .btn-close {
+                filter: none;
+            }
+        }
+
+        &.bg-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #084298 100%) !important;
+            color: #ffffff !important;
+
+            .btn-close {
+                filter: invert(1);
+            }
+        }
+    }
+
+    .modal-body {
+        padding: 2rem;
+        background: #ffffff;
+    }
+
+    .modal-footer {
+        background: #f8f9fa;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 0 0 1rem 1rem;
+
+        &.justify-content-center {
+            justify-content: center !important;
+        }
+
+        &.justify-content-between {
+            justify-content: space-between !important;
+        }
+    }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .coach-bookings-management-page {
+        padding: 1rem 0;
+
+        .container {
+            padding: 0 1rem;
+        }
+
+        .card {
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+
+            .card-body {
+                padding: 1.5rem;
+            }
+        }
+
+        .table {
+            font-size: 0.9rem;
+
+            thead th,
+            tbody td {
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        .btn {
+            font-size: 0.85rem;
+            padding: 0.4rem 1rem;
+        }
+
+        .btn-action-detail,
+        .btn-action-challenge {
+            min-width: 100px;
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+        }
+    }
+
+    .modal {
+        .modal-body {
+            padding: 1.5rem;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .coach-bookings-management-page {
+        h2 {
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .table-responsive {
+            border-radius: 0.75rem;
+
+            .table {
+                font-size: 0.8rem;
+            }
+        }
+
+        .btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-action-detail,
+        .btn-action-challenge {
+            width: 100%;
+            margin-bottom: 0.25rem;
+        }
+
+        .d-flex.gap-2 {
+            flex-direction: column;
+            gap: 0.25rem !important;
+        }
+    }
+}

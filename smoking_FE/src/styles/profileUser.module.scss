@@ -1,0 +1,501 @@
+.profilePage {
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.profileHeader {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    padding: 60px 0 160px;
+    color: white;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        background: linear-gradient(to bottom right, transparent 49.5%, #f8fafc 50%);
+    }
+}
+
+.headerContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.avatarSection {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.avatarWrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.avatar {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 4px solid white;
+    object-fit: cover;
+    background: white;
+    transition: all 0.3s ease;
+
+    &.premium {
+        border-color: #ffd700;
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+    }
+}
+
+.premiumBadge {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #ffd700, #ffa500);
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+    svg {
+        color: white;
+        font-size: 18px;
+    }
+}
+
+.userName {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.userBio {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.membershipBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 20px;
+    margin-top: 15px;
+
+    svg {
+        color: #ffd700;
+    }
+}
+
+// Coach Section Styles
+.coachSection {
+    margin-top: 25px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    .d-flex {
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+
+        span:first-of-type {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .text-muted {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-style: italic;
+        }
+
+        .text-danger {
+            font-size: 1rem;
+            color: #ff6b6b !important;
+            font-weight: 500;
+            padding: 8px 16px;
+            background: rgba(255, 107, 107, 0.15);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+    }
+
+    // Coach Button
+    .btn-link {
+        background: rgba(255, 255, 255, 0.15) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 25px !important;
+        padding: 10px 20px !important;
+        text-decoration: none !important;
+        color: white !important;
+        transition: all 0.3s ease !important;
+        backdrop-filter: blur(5px);
+
+        &:hover,
+        &:focus,
+        &:active,
+        &:visited {
+            background: rgba(255, 255, 255, 0.25) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-decoration: none !important;
+            outline: none !important;
+        }
+
+        // Override tất cả text decoration
+        * {
+            text-decoration: none !important;
+        }
+
+        img {
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        &:hover img {
+            border-color: white;
+            transform: scale(1.05);
+        }
+    }
+
+    // Icon styling
+    svg {
+        font-size: 1.3rem;
+        color: rgba(255, 255, 255, 0.9);
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    }
+
+    // Global text decoration override
+    button,
+    a,
+    span,
+    * {
+        text-decoration: none !important;
+
+        &:hover,
+        &:focus,
+        &:active,
+        &:visited {
+            text-decoration: none !important;
+        }
+    }
+
+    // Đặc biệt override cho Bootstrap btn-link
+    .btn-link,
+    .btn-link:hover,
+    .btn-link:focus,
+    .btn-link:active,
+    .btn-link:visited {
+        text-decoration: none !important;
+        border-bottom: none !important;
+        text-decoration-line: none !important;
+    }
+}
+
+// Coach Name Styling - Màu trắng bình thường
+.coachName {
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+    letter-spacing: 0.3px !important;
+    transition: all 0.3s ease !important;
+    font-family: 'Segoe UI', 'Arial', sans-serif !important;
+    text-transform: capitalize !important;
+
+    // Bỏ mọi text decoration
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-style: none !important;
+    text-decoration-color: transparent !important;
+
+    // Override cho tất cả pseudo states
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &:visited,
+    &:link {
+        text-decoration: none !important;
+        text-decoration-line: none !important;
+        text-decoration-style: none !important;
+        text-decoration-color: transparent !important;
+        color: #ffffff !important;
+    }
+
+    &:hover {
+        color: #10b981 !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+        transform: scale(1.02) !important;
+    }
+}
+
+.contentSection {
+    max-width: 1200px;
+    margin: -100px auto 0;
+    padding: 0 20px;
+    position: relative;
+    z-index: 3;
+}
+
+.mainContent {
+    display: grid;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.infoCard,
+.blogsCard {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.cardHeader {
+    background: #f8fafc;
+    padding: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #1a365d;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.cardContent {
+    padding: 24px;
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+}
+
+.infoItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    svg {
+        color: #10b981;
+        font-size: 20px;
+        margin-top: 4px;
+    }
+
+    div {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+}
+
+.label {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.value {
+    color: #1f2937;
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.blogsList {
+    display: grid;
+    gap: 20px;
+}
+
+.blogItem {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    &:hover {
+        background: #f8fafc;
+    }
+}
+
+.blogImage {
+    flex-shrink: 0;
+    width: 200px;
+    height: 150px;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+}
+
+.blogContent {
+    button {
+        background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background: red;
+            transform: translateY(-2px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+}
+
+.blogMeta {
+    display: flex;
+    gap: 15px;
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+
+    span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+}
+
+.deleteSection {
+    text-align: center;
+    padding: 40px 0;
+}
+
+// Cập nhật màu cho delete button
+.deleteAccountBtn {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+
+    &:hover {
+        background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+        box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+
+.loadingState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 40px 0;
+    color: #6b7280;
+}
+
+@media (max-width: 768px) {
+    .profileHeader {
+        padding: 40px 0 120px;
+    }
+
+    .userName {
+        font-size: 2rem;
+    }
+
+    .blogItem {
+        flex-direction: column;
+    }
+
+    .blogImage {
+        width: 100%;
+        height: 200px;
+    }
+}
+
+.editButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 32px !important; // Thêm !important để override style của react-bootstrap
+    height: 32px !important; // Thêm !important để override style của react-bootstrap
+    min-width: unset !important; // Reset min-width của Bootstrap
+    padding: 0 !important; // Reset padding của Bootstrap
+    border-radius: 50% !important;
+    background: linear-gradient(145deg, #10b981, #047857) !important;
+    border: 2px solid #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+    overflow: hidden;
+
+    // Icon style
+    svg {
+        width: 16px;
+        height: 16px;
+        color: white;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    }
+
+    &:hover {
+        transform: scale(1.1);
+        background: linear-gradient(145deg, #047857, #065f46) !important;
+        box-shadow: 0 4px 8px rgba(16, 185, 129, 0.4);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+
+    // Animation
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+        }
+
+        70% {
+            box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+        }
+    }
+
+    &:hover {
+        animation: pulse 1.5s infinite;
+    }
+}
