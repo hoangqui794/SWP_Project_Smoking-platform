@@ -13,6 +13,7 @@ using Smoking.DAL.Repositories;
 using System.Text;
 using System.Text.Json.Serialization;
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var builder = WebApplication.CreateBuilder(args);
 // ⭐ BƯỚC 1: THÊM DỊCH VỤ CORS
 // =================================================================

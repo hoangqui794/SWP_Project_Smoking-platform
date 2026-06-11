@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,6 +21,6 @@ namespace Smoking.DAL.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal PricePerPack { get; set; }
 
-        public DateTime LastUpdated { get; set; } = DateTime.Now;
+        public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
     }
 }

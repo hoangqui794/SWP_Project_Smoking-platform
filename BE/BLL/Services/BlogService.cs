@@ -1,4 +1,4 @@
-﻿using Smoking.BLL.Interfaces;
+using Smoking.BLL.Interfaces;
 using Smoking.DAL.Entities;
 using Smoking.DAL.Interfaces.Repositories;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Smoking.BLL.Services
 {
     /// <summary>
-    /// Xử lý nghiệp vụ blog cho Admin và User
+    /// X? l� nghi?p v? blog cho Admin v� User
     /// </summary>
     public class BlogService : IBlogService
     {
@@ -16,28 +16,28 @@ namespace Smoking.BLL.Services
 
         // ================= ADMIN =================
 
-        // Lấy toàn bộ blog kèm User & Role
+        // L?y to�n b? blog k�m User & Role
         public async Task<IEnumerable<Blog>> GetAllWithUserAndRoleAsync()
             => await _repo.GetAllWithUserAndRoleAsync();
 
-        // Lấy blog theo trạng thái kèm User & Role
+        // L?y blog theo tr?ng th�i k�m User & Role
         public async Task<IEnumerable<Blog>> GetAllByStatusWithUserAndRoleAsync(string status)
             => await _repo.GetAllByStatusWithUserAndRoleAsync(status);
 
-        // Lấy danh sách blog bị báo cáo
+        // L?y danh s�ch blog b? b�o c�o
         public async Task<IEnumerable<Blog>> GetAllReportedWithUserAndRoleAsync()
             => await _repo.GetAllReportedWithUserAndRoleAsync();
 
-        // Đếm tổng số blog hệ thống
+        // �?m t?ng s? blog h? th?ng
         public async Task<int> CountAllAsync() => await _repo.CountAllAsync();
 
-        // Đếm số blog theo trạng thái
+        // �?m s? blog theo tr?ng th�i
         public async Task<int> CountByStatusAsync(string status) => await _repo.CountByStatusAsync(status);
 
-        // Đếm số blog bị báo cáo
+        // �?m s? blog b? b�o c�o
         public async Task<int> CountReportedAsync() => await _repo.CountReportedAsync();
 
-        // Duyệt blog (chuyển trạng thái thành Approved)
+        // Duy?t blog (chuy?n tr?ng th�i th�nh Approved)
         public async Task<bool> ApproveBlogAsync(int blogId)
         {
             var blog = await _repo.GetByIdWithUserAndRoleAsync(blogId);
@@ -48,7 +48,7 @@ namespace Smoking.BLL.Services
             return true;
         }
 
-        // Từ chối blog (chuyển trạng thái thành Rejected)
+        // T? ch?i blog (chuy?n tr?ng th�i th�nh Rejected)
         public async Task<bool> RejectBlogAsync(int blogId)
         {
             var blog = await _repo.GetByIdWithUserAndRoleAsync(blogId);
@@ -59,7 +59,7 @@ namespace Smoking.BLL.Services
             return true;
         }
 
-        // Đánh dấu blog đã xử lý báo cáo
+        // ��nh d?u blog d� x? l� b�o c�o
         public async Task<bool> MarkBlogAsReviewedAsync(int blogId)
         {
             var blog = await _repo.GetByIdWithUserAndRoleAsync(blogId);
@@ -70,7 +70,7 @@ namespace Smoking.BLL.Services
             return true;
         }
 
-        // Xoá blog
+        // Xo� blog
         public async Task<bool> DeleteAsync(int blogId)
         {
             var blog = await _repo.GetByIdWithUserAndRoleAsync(blogId);
@@ -80,11 +80,11 @@ namespace Smoking.BLL.Services
             return true;
         }
 
-        // Admin tạo blog mới (mặc định đã duyệt)
+        // Admin t?o blog m?i (m?c d?nh d� duy?t)
         public async Task<Blog> CreateByAdminAsync(Blog blog)
         {
             blog.Status = "Approved";
-            blog.CreatedDate = System.DateTime.Now;
+            blog.CreatedDate = System.DateTime.UtcNow;
             await _repo.AddAsync(blog);
             await _repo.SaveChangesAsync();
             return blog;
@@ -93,27 +93,27 @@ namespace Smoking.BLL.Services
 
         // ================= USER =================
 
-        // Lấy tất cả blog của user
+        // L?y t?t c? blog c?a user
         public async Task<IEnumerable<Blog>> GetAllByUserIdAsync(int userId)
         {
             return await _repo.GetByAuthorIdWithUserAndRoleAsync(userId);  // Use the repository method that includes User and Role
         }
 
-        // Lấy chi tiết blog theo ID
+        // L?y chi ti?t blog theo ID
         public async Task<Blog> GetByIdAsync(int blogId)
             => await _repo.GetByIdAsync(blogId);
 
-        // User tạo blog mới (mặc định chờ duyệt)
+        // User t?o blog m?i (m?c d?nh ch? duy?t)
         public async Task<Blog> CreateByUserAsync(Blog blog)
         {
             //blog.Status = "Pending";
-            blog.CreatedDate = System.DateTime.Now;
+            blog.CreatedDate = System.DateTime.UtcNow;
             await _repo.AddAsync(blog);
             await _repo.SaveChangesAsync();
             return blog;
         }
 
-        // User chỉnh sửa blog
+        // User ch?nh s?a blog
         public async Task<bool> UpdateAsync(Blog blog)
         {
             _repo.Update(blog);
@@ -121,21 +121,21 @@ namespace Smoking.BLL.Services
             return true;
         }
 
-        // Thống kê tổng số blog của user
+        // Th?ng k� t?ng s? blog c?a user
         public async Task<int> CountAllByUserAsync(int userId)
             => await _repo.CountAllByUserAsync(userId);
 
-        // Thống kê blog theo trạng thái của user
+        // Th?ng k� blog theo tr?ng th�i c?a user
         public async Task<int> CountByUserAndStatusAsync(int userId, string status)
             => await _repo.CountByUserAndStatusAsync(userId, status);
 
-        // Báo cáo blog (tăng số lần báo cáo)
+        // B�o c�o blog (tang s? l?n b�o c�o)
         public async Task<bool> ReportBlogAsync(int blogId)
         {
             var blog = await _repo.GetByIdAsync(blogId);
             if (blog == null) return false;
 
-            blog.ReportCount++;  // Tăng số lượng báo cáo lên 1
+            blog.ReportCount++;  // Tang s? lu?ng b�o c�o l�n 1
             _repo.Update(blog);
             await _repo.SaveChangesAsync();
 
@@ -156,34 +156,34 @@ namespace Smoking.BLL.Services
                     BlogId = blogId,
                     UserId = userId,
                     IsLike = isLike,
-                    ReactedAt = DateTime.Now
+                    ReactedAt = DateTime.UtcNow
                 });
             }
             else
             {
                 if (existing.IsLike == isLike)
                 {
-                    // Nếu đã like/dislike rồi mà nhấn lại => huỷ
+                    // N?u d� like/dislike r?i m� nh?n l?i => hu?
                     existing.IsLike = null;
                 }
                 else
                 {
                     existing.IsLike = isLike;
-                    existing.ReactedAt = DateTime.Now;
+                    existing.ReactedAt = DateTime.UtcNow;
                 }
 
                 _repo.UpdateReaction(existing);
             }
 
-            await _repo.SaveChangesAsync(); // 💥 Cần lưu xong rồi mới tính toán lại
+            await _repo.SaveChangesAsync(); // ?? C?n luu xong r?i m?i t�nh to�n l?i
 
-            // Cập nhật lại tổng Likes/Dislikes bên bảng Blog
+            // C?p nh?t l?i t?ng Likes/Dislikes b�n b?ng Blog
             var blog = await _repo.GetByIdAsync(blogId);
             blog.Likes = await _repo.CountReactionsAsync(blogId, true);
             blog.Dislikes = await _repo.CountReactionsAsync(blogId, false);
             _repo.Update(blog);
 
-            await _repo.SaveChangesAsync(); // 💥 Phải lưu tiếp sau khi cập nhật blog
+            await _repo.SaveChangesAsync(); // ?? Ph?i luu ti?p sau khi c?p nh?t blog
 
             return true;
         }
@@ -196,7 +196,7 @@ namespace Smoking.BLL.Services
         public async Task<bool?> GetUserReactionAsync(int blogId, int userId)
         {
             var reaction = await _repo.GetReactionAsync(blogId, userId);
-            return reaction?.IsLike; // Có thể là true / false / null
+            return reaction?.IsLike; // C� th? l� true / false / null
         }
         public async Task<(int Likes, int Dislikes)> GetReactionCountAsync(int blogId)
         {

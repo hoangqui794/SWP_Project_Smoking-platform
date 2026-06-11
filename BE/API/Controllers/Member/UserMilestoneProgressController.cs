@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Smoking.BLL.Interfaces;
 using Smoking.DAL.Entities;
@@ -13,13 +13,13 @@ namespace Smoking.API.Controllers
 {
     [ApiController]
     [Route("api/user/milestones")]
-    [Authorize(Roles = "2")] // Chỉ người dùng (RoleID = 2) mới có quyền truy cập
+    [Authorize(Roles = "2")] // Ch? ngu?i d�ng (RoleID = 2) m?i c� quy?n truy c?p
     public class UserMilestoneProgressController : ControllerBase
     {
         private readonly IUserMilestoneProgressService _userMilestoneProgressService;
-        private readonly IMilestoneService _milestoneService; // Thêm service để lấy dữ liệu các mốc
+        private readonly IMilestoneService _milestoneService; // Th�m service d? l?y d? li?u c�c m?c
 
-        // Trong controller, inject AppDbContext (hoặc thông qua service)
+        // Trong controller, inject AppDbContext (ho?c th�ng qua service)
         private readonly AppDbContext _context;
         public UserMilestoneProgressController(
             IUserMilestoneProgressService userMilestoneProgressService,
@@ -37,12 +37,12 @@ namespace Smoking.API.Controllers
             var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userIdStr) || !int.TryParse(userIdStr, out var userId))
             {
-                return Unauthorized(new { message = "Không thể xác định ID người dùng." });
+                return Unauthorized(new { message = "Kh�ng th? x�c d?nh ID ngu?i d�ng." });
             }
 
             var allMilestones = await _milestoneService.GetAllAsync();
             if (allMilestones == null || !allMilestones.Any())
-                return NotFound(new { message = "Không có mốc tiến trình nào trong hệ thống." });
+                return NotFound(new { message = "Kh�ng c� m?c ti?n tr�nh n�o trong h? th?ng." });
 
             var progressList = await _userMilestoneProgressService.GetAllByUserIdAsync(userId);
 
@@ -61,7 +61,7 @@ namespace Smoking.API.Controllers
                 progressList = await _userMilestoneProgressService.GetAllByUserIdAsync(userId);
             }
 
-            // Lấy startDate từ QuitPlan (nếu có)
+            // L?y startDate t? QuitPlan (n?u c�)
             var quitPlan = await _context.QuitPlans
                 .Where(q => q.UserID == userId)
                 .OrderByDescending(q => q.StartDate)
@@ -71,7 +71,7 @@ namespace Smoking.API.Controllers
 
             if (startDate == null)
             {
-                // Nếu chưa có ngày bắt đầu, trả về như cũ
+                // N?u chua c� ng�y b?t d?u, tr? v? nhu cu
                 var result = progressList.Select(up => new
                 {
                     up.UserMilestoneID,
@@ -91,30 +91,30 @@ namespace Smoking.API.Controllers
                 return Ok(result);
             }
 
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             var resultWithRealtime = progressList.Select(up =>
             {
                 double milestoneTime = up.Milestone?.MilestoneTime ?? 0;
                 string timeUnitRaw = up.Milestone?.TimeUnit?.Trim().ToLower() ?? "minute";
 
-                // QUY ĐỔI THÁNG/NĂM SANG NGÀY
-                if (timeUnitRaw == "tháng")
+                // QUY �?I TH�NG/NAM SANG NG�Y
+                if (timeUnitRaw == "th�ng")
                 {
                     milestoneTime *= 30;
-                    timeUnitRaw = "ngày";
+                    timeUnitRaw = "ng�y";
                 }
-                else if (timeUnitRaw == "năm")
+                else if (timeUnitRaw == "nam")
                 {
                     milestoneTime *= 365;
-                    timeUnitRaw = "ngày";
+                    timeUnitRaw = "ng�y";
                 }
 
-                // CHUẨN HÓA timeUnit về tiếng Anh
+                // CHU?N H�A timeUnit v? ti?ng Anh
                 var timeUnit = timeUnitRaw switch
                 {
-                    "phút" => "minute",
-                    "giờ" => "hour",
-                    "ngày" => "day",
+                    "ph�t" => "minute",
+                    "gi?" => "hour",
+                    "ng�y" => "day",
                     _ => timeUnitRaw
                 };
 
@@ -166,22 +166,22 @@ namespace Smoking.API.Controllers
 
 
 
-        // Lấy tiến trình của người dùng theo ID tiến trình
+        // L?y ti?n tr�nh c?a ngu?i d�ng theo ID ti?n tr�nh
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            // Lấy UserID từ JWT token một cách an toàn
+            // L?y UserID t? JWT token m?t c�ch an to�n
             var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userIdStr) || !int.TryParse(userIdStr, out var userId))
             {
-                return Unauthorized(new { message = "Không thể xác định ID người dùng." });
+                return Unauthorized(new { message = "Kh�ng th? x�c d?nh ID ngu?i d�ng." });
             }
 
             var progress = await _userMilestoneProgressService.GetByIdAsync(id);
 
-            // Kiểm tra quyền sở hữu tiến trình
+            // Ki?m tra quy?n s? h?u ti?n tr�nh
             if (progress == null || progress.UserID != userId)
-                return NotFound(new { message = "Không tìm thấy tiến trình hoặc tiến trình không thuộc người dùng này." });
+                return NotFound(new { message = "Kh�ng t�m th?y ti?n tr�nh ho?c ti?n tr�nh kh�ng thu?c ngu?i d�ng n�y." });
 
             return Ok(progress);
         }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -28,7 +28,7 @@ namespace Smoking.DAL.Entities
 
         public Role? Role { get; set; }             // nullable
 
-        public DateTime RegistrationDate { get; set; } = DateTime.Now;
+        public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
 
         [Required, MaxLength(50)]
         public string Status { get; set; } = null!;
@@ -61,7 +61,7 @@ namespace Smoking.DAL.Entities
         public ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
         public ICollection<ConsultationBooking> ConsultationBookingsAsUser { get; set; } = new List<ConsultationBooking>();
         public ICollection<ConsultationBooking> ConsultationBookingsAsCoach { get; set; } = new List<ConsultationBooking>();
-        // Cho coach truy xuất danh sách user được gán
+        // Cho coach truy xu?t danh s�ch user du?c g�n
         public ICollection<User> AssignedUsers { get; set; } = new List<User>();
         public ICollection<BlogReaction> BlogReactions { get; set; } = new List<BlogReaction>();
         public virtual ICollection<UserMilestoneProgress> UserMilestoneProgresses { get; set; } = new List<UserMilestoneProgress>();

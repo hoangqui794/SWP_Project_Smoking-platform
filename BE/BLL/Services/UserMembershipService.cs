@@ -1,4 +1,4 @@
-﻿using Smoking.BLL.Interfaces;
+using Smoking.BLL.Interfaces;
 using Smoking.DAL.Entities;
 using Smoking.DAL.Interfaces.Repositories;
 using System.Collections.Generic;
@@ -16,9 +16,9 @@ namespace Smoking.BLL.Services
 
         public async Task<UserMembership> CreateOrUpdateMembershipAsync(int userId, int packageId)
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             var package = await _unitOfWork.MembershipPackages.GetByIdAsync(packageId);
-            if (package == null) throw new Exception("Gói không tồn tại");
+            if (package == null) throw new Exception("G�i kh�ng t?n t?i");
 
             var end = package.Duration > 0
             ? now.AddMonths(package.Duration)

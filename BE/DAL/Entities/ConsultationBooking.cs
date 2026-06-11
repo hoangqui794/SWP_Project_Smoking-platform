@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -36,6 +36,6 @@ namespace Smoking.DAL.Entities
         public string? PreferredLanguage { get; set; }  // Nullable string
 
         public bool ReminderSent { get; set; } = false;
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     }
 }

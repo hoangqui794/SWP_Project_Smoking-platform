@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Smoking.DAL.Data;
 using Smoking.DAL.Entities;
 using Smoking.DAL.Interfaces.Repositories;
@@ -32,7 +32,7 @@ namespace Smoking.DAL.Repositories
             return await _context.UserMemberships
                 .Include(m => m.Package)
                 .Where(m => m.UserID == userId &&
-                            m.EndDate >= DateTime.Now &&
+                            m.EndDate >= DateTime.UtcNow &&
                             m.PaymentStatus == "Completed")
                 .OrderByDescending(m => m.EndDate)
                 .FirstOrDefaultAsync();

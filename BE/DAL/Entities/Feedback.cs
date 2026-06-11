@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,6 +22,6 @@ namespace Smoking.DAL.Entities
         [Required]
         public int Rating { get; set; }
 
-        public DateTime FeedbackDate { get; set; } = DateTime.Now;
+        public DateTime FeedbackDate { get; set; } = DateTime.UtcNow;
     }
 }

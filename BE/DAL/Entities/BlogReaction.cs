@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,7 +22,7 @@ namespace Smoking.DAL.Entities
 
         public bool? IsLike { get; set; }
 
-        public DateTime ReactedAt { get; set; } = DateTime.Now;
+        public DateTime ReactedAt { get; set; } = DateTime.UtcNow;
 
         [ForeignKey("BlogId")]
         public Blog Blog { get; set; }

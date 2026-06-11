@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Smoking.BLL.Interfaces;
 using Smoking.DAL.Entities;
@@ -58,7 +58,7 @@ namespace Smoking.API.Controllers.Member
         {
             var authorIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (authorIdClaim == null)
-                return Unauthorized("Chưa đăng nhập");
+                return Unauthorized("Chua dang nh?p");
 
             var authorId = int.Parse(authorIdClaim);
 
@@ -71,8 +71,8 @@ namespace Smoking.API.Controllers.Member
                 BlogType = model.BlogType,
                 ImageUrl = model.ImageUrl,
                 Status = "Published",
-                CreatedDate = DateTime.Now,
-                LastModifiedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
+                LastModifiedDate = DateTime.UtcNow,
                 Likes = 0,
                 Dislikes = 0,
                 ReportCount = 0
@@ -87,7 +87,7 @@ namespace Smoking.API.Controllers.Member
         {
             var authorIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (authorIdClaim == null)
-                return Unauthorized("Chưa đăng nhập");
+                return Unauthorized("Chua dang nh?p");
 
             var userId = int.Parse(authorIdClaim);
             var blogs = await _blogService.GetAllByUserIdAsync(userId);
@@ -144,14 +144,14 @@ namespace Smoking.API.Controllers.Member
 
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (blog.AuthorId != int.Parse(userIdClaim))
-                return BadRequest("Bạn không thể sửa bài viết của người khác.");
+                return BadRequest("B?n kh�ng th? s?a b�i vi?t c?a ngu?i kh�c.");
 
             blog.Title = model.Title;
             blog.Content = model.Content;
             blog.CategoryName = model.CategoryName;
             blog.BlogType = model.BlogType;
             blog.ImageUrl = model.ImageUrl;
-            blog.LastModifiedDate = DateTime.Now;
+            blog.LastModifiedDate = DateTime.UtcNow;
 
             var updated = await _blogService.UpdateAsync(blog);
             return Ok(updated);
@@ -165,10 +165,10 @@ namespace Smoking.API.Controllers.Member
 
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (blog.AuthorId != int.Parse(userIdClaim))
-                return BadRequest("Bạn không thể xoá bài viết của người khác.");
+                return BadRequest("B?n kh�ng th? xo� b�i vi?t c?a ngu?i kh�c.");
 
             var deleted = await _blogService.DeleteAsync(blogId);
-            return Ok(new { Message = "Đã xoá blog thành công" });
+            return Ok(new { Message = "�� xo� blog th�nh c�ng" });
         }
 
         [HttpGet("stats")]
@@ -176,7 +176,7 @@ namespace Smoking.API.Controllers.Member
         {
             var authorIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (authorIdClaim == null)
-                return Unauthorized("Chưa đăng nhập");
+                return Unauthorized("Chua dang nh?p");
 
             var userId = int.Parse(authorIdClaim);
 
@@ -197,21 +197,21 @@ namespace Smoking.API.Controllers.Member
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userIdClaim == null)
-                return Unauthorized("Chưa đăng nhập");
+                return Unauthorized("Chua dang nh?p");
 
             var result = await _blogService.ReportBlogAsync(blogId);
             if (!result)
-                return BadRequest(new { Message = "Báo cáo blog không thành công." });
+                return BadRequest(new { Message = "B�o c�o blog kh�ng th�nh c�ng." });
 
-            return Ok(new { Message = "Blog đã được báo cáo." });
+            return Ok(new { Message = "Blog d� du?c b�o c�o." });
         }
-        // [POST] Bấm Like
+        // [POST] B?m Like
         [HttpPost("like/{blogId}")]
         public async Task<IActionResult> LikeBlog(int blogId)
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             await _blogService.ToggleReactionAsync(blogId, userId, true);
-            return Ok(new { Message = "Đã xử lý Like" });
+            return Ok(new { Message = "�� x? l� Like" });
         }
 
         [HttpPost("dislike/{blogId}")]
@@ -219,19 +219,19 @@ namespace Smoking.API.Controllers.Member
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             await _blogService.ToggleReactionAsync(blogId, userId, false);
-            return Ok(new { Message = "Đã xử lý Dislike" });
+            return Ok(new { Message = "�� x? l� Dislike" });
         }
         [HttpGet("reaction-status/{blogId}")]
         public async Task<IActionResult> GetReactionStatus(int blogId)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userIdClaim == null)
-                return Unauthorized("Chưa đăng nhập");
+                return Unauthorized("Chua dang nh?p");
 
             var userId = int.Parse(userIdClaim);
             var reaction = await _blogService.GetUserReactionAsync(blogId, userId);
 
-            // Giá trị trả về: null (chưa phản ứng), true (like), false (dislike)
+            // Gi� tr? tr? v?: null (chua ph?n ?ng), true (like), false (dislike)
             return Ok(new
             {
                 BlogId = blogId,

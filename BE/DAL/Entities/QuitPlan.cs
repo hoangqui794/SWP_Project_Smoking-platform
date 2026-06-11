@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,7 +14,7 @@ namespace Smoking.DAL.Entities
         [Required]
         public int UserID { get; set; }
 
-        public virtual User User { get; set; }  // Nếu dùng lazy loading
+        public virtual User User { get; set; }  // N?u d�ng lazy loading
 
         public DateTime StartDate { get; set; }
 
@@ -34,7 +34,7 @@ namespace Smoking.DAL.Entities
         [StringLength(50)]
         public string Status { get; set; } = "Active";
 
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         public virtual ICollection<QuitProgress> QuitProgresses { get; set; }
 

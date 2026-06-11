@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Smoking.BLL.Interfaces;
 using Smoking.DAL.Entities;
 using Smoking.DAL.Interfaces.Repositories;
@@ -24,12 +24,12 @@ public class AchievementEvaluatorService : IAchievementEvaluatorService
 
     public async Task<bool> EvaluateAndGrantAchievementsAsync(int userId)
     {
-        _logger.LogInformation("Đang đánh giá thành tựu cho UserID = {UserID}", userId);
+        _logger.LogInformation("�ang d�nh gi� th�nh t?u cho UserID = {UserID}", userId);
 
         var user = await _unitOfWork.Users.GetByIdAsync(userId);
         if (user == null)
         {
-            _logger.LogWarning("Không tìm thấy người dùng với ID = {UserID}", userId);
+            _logger.LogWarning("Kh�ng t�m th?y ngu?i d�ng v?i ID = {UserID}", userId);
             return false;
         }
 
@@ -37,7 +37,7 @@ public class AchievementEvaluatorService : IAchievementEvaluatorService
                         .FirstOrDefault();
         if (quitPlan == null)
         {
-            _logger.LogWarning("Không tìm thấy QuitPlan đang hoạt động cho UserID = {UserID}", userId);
+            _logger.LogWarning("Kh�ng t�m th?y QuitPlan dang ho?t d?ng cho UserID = {UserID}", userId);
             return false;
         }
 
@@ -47,7 +47,7 @@ public class AchievementEvaluatorService : IAchievementEvaluatorService
 
         if (!progresses.Any())
         {
-            _logger.LogWarning("Không có dữ liệu QuitProgress cho UserID = {UserID}", userId);
+            _logger.LogWarning("Kh�ng c� d? li?u QuitProgress cho UserID = {UserID}", userId);
             return false;
         }
 
@@ -57,7 +57,7 @@ public class AchievementEvaluatorService : IAchievementEvaluatorService
         int cigarettesDropped = latestProgress.TotalCigarettesDropped ?? 0;
         int checkinDays = progresses.Count(x => x.CigarettesSmokedToday != null);
 
-        _logger.LogInformation("Tổng kết: SmokeFreeDays = {Days}, MoneySaved = {MoneySaved}, CigarettesDropped = {CigsDropped}, CheckinDays = {CheckinDays}",
+        _logger.LogInformation("T?ng k?t: SmokeFreeDays = {Days}, MoneySaved = {MoneySaved}, CigarettesDropped = {CigsDropped}, CheckinDays = {CheckinDays}",
             smokeFreeDays, moneySaved, cigarettesDropped, checkinDays);
 
         var allAchievements = await _unitOfWork.Achievements.GetAllAsync();
@@ -68,7 +68,7 @@ public class AchievementEvaluatorService : IAchievementEvaluatorService
         {
             if (grantedAchievementIds.Contains(achievement.AchievementID))
             {
-                _logger.LogDebug("➡️ Đã có thành tựu {AchievementID}, bỏ qua", achievement.AchievementID);
+                _logger.LogDebug("?? �� c� th�nh t?u {AchievementID}, b? qua", achievement.AchievementID);
                 continue;
             }
 
@@ -78,7 +78,7 @@ public class AchievementEvaluatorService : IAchievementEvaluatorService
                 (achievement.CigarettesDroppedRequired.HasValue && cigarettesDropped >= achievement.CigarettesDroppedRequired.Value) ||
                 (achievement.CheckinDaysRequired.HasValue && checkinDays >= achievement.CheckinDaysRequired.Value);
 
-            _logger.LogDebug("🔍 Kiểm tra AchievementID = {AchievementID} → Đủ điều kiện: {Eligible}",
+            _logger.LogDebug("?? Ki?m tra AchievementID = {AchievementID} ? �? di?u ki?n: {Eligible}",
                 achievement.AchievementID, eligible);
 
             if (eligible)
@@ -92,13 +92,13 @@ public class AchievementEvaluatorService : IAchievementEvaluatorService
 
     private async Task GrantAchievement(User user, Achievement achievement)
     {
-        _logger.LogInformation("🏅 Cấp thành tựu {AchievementID} cho UserID = {UserID}", achievement.AchievementID, user.UserID);
+        _logger.LogInformation("?? C?p th�nh t?u {AchievementID} cho UserID = {UserID}", achievement.AchievementID, user.UserID);
 
         var userAchievement = new UserAchievement
         {
             UserID = user.UserID,
             AchievementID = achievement.AchievementID,
-            AwardedDate = DateTime.Now
+            AwardedDate = DateTime.UtcNow
         };
 
         await _unitOfWork.UserAchievements.AddAsync(userAchievement);
@@ -106,9 +106,9 @@ public class AchievementEvaluatorService : IAchievementEvaluatorService
 
         if (!string.IsNullOrWhiteSpace(user.Email))
         {
-            string subject = $"🎉 Bạn vừa đạt thành tựu: {achievement.AchievementName}!";
+            string subject = $"?? B?n v?a d?t th�nh t?u: {achievement.AchievementName}!";
 
-            // Nếu có ảnh badge thì thêm vào email
+            // N?u c� ?nh badge th� th�m v�o email
             string htmlBody = $@"
                 <div style='
                     font-family: Arial, sans-serif;
@@ -121,15 +121,15 @@ public class AchievementEvaluatorService : IAchievementEvaluatorService
                     box-shadow: 0 0 10px rgba(0,0,0,0.1);'>
 
                     <div style='text-align: center;'>
-                        <h1 style='color: #28a745; font-size: 26px;'>🎉 Chúc mừng {user.FullName ?? "bạn"}! 🎉</h1>
-                        <p style='font-size: 16px; color: #333;'>Bạn vừa đạt được một <strong>thành tựu mới</strong> trong hành trình cai thuốc lá:</p>
+                        <h1 style='color: #28a745; font-size: 26px;'>?? Ch�c m?ng {user.FullName ?? "b?n"}! ??</h1>
+                        <p style='font-size: 16px; color: #333;'>B?n v?a d?t du?c m?t <strong>th�nh t?u m?i</strong> trong h�nh tr�nh cai thu?c l�:</p>
         
                         <div style='margin: 20px 0; padding: 15px; background-color: #dff0d8; border-radius: 8px;'>
                             <h2 style='color: #3c763d;'>{achievement.AchievementName}</h2>
                             <p style='font-size: 15px;'>{achievement.Description}</p>
                         </div>
 
-                        <div style='font-size: 24px; margin-top: 15px;'>🌟👏🎊</div>
+                        <div style='font-size: 24px; margin-top: 15px;'>??????</div>
                     </div>
 
                     <hr style='margin-top: 30px; border: none; border-top: 1px solid #ccc;' />
@@ -140,16 +140,16 @@ public class AchievementEvaluatorService : IAchievementEvaluatorService
             try
             {
                 await _mailService.SendHtmlEmailAsync(user.Email, subject, htmlBody);
-                _logger.LogInformation("📧 Đã gửi email thành tựu đến {Email}", user.Email);
+                _logger.LogInformation("?? �� g?i email th�nh t?u d?n {Email}", user.Email);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "❌ Lỗi khi gửi email thành tựu cho {Email}", user.Email);
+                _logger.LogError(ex, "? L?i khi g?i email th�nh t?u cho {Email}", user.Email);
             }
         }
         else
         {
-            _logger.LogWarning("⚠️ Không thể gửi email vì UserID = {UserID} không có email.", user.UserID);
+            _logger.LogWarning("?? Kh�ng th? g?i email v� UserID = {UserID} kh�ng c� email.", user.UserID);
         }
     }
 

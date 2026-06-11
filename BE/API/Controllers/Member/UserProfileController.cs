@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Smoking.API.Models.User;
 using Smoking.BLL.Interfaces;
@@ -23,22 +23,22 @@ namespace Smoking.API.Controllers.Member
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
-                return Unauthorized(new { Message = "Không xác định được người dùng." });
+                return Unauthorized(new { Message = "Kh�ng x�c d?nh du?c ngu?i d�ng." });
 
             var user = await _userService.GetUserWithMembershipAsync(userId);
             if (user == null)
-                return NotFound(new { Message = "Người dùng không tồn tại." });
+                return NotFound(new { Message = "Ngu?i d�ng kh�ng t?n t?i." });
 
             var activeMembership = user.UserMemberships?
                 .Where(um =>
                     (um.PaymentStatus == "Completed" || um.PaymentStatus == "AdminAssigned") &&
-                    um.EndDate >= DateTime.Now)
+                    um.EndDate >= DateTime.UtcNow)
                 .OrderByDescending(um => um.StartDate)
                 .FirstOrDefault();
 
             return Ok(new
             {
-                Message = "Thông tin cá nhân",
+                Message = "Th�ng tin c� nh�n",
                 User = new
                 {
                     user.UserID,
@@ -69,7 +69,7 @@ namespace Smoking.API.Controllers.Member
         [HttpGet("notifications")]
         public IActionResult GetNotifications()
         {
-            return Ok(new { Message = "Thông báo hỗ trợ cai thuốc - User" });
+            return Ok(new { Message = "Th�ng b�o h? tr? cai thu?c - User" });
         }
 
         [HttpDelete("delete-user")]
@@ -78,7 +78,7 @@ namespace Smoking.API.Controllers.Member
             try
             {
                 await _userService.DeleteUserByEmailAsync(request.Email);
-                return Ok(new { Message = "Xoá user thành công." });
+                return Ok(new { Message = "Xo� user th�nh c�ng." });
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace Smoking.API.Controllers.Member
         {
             try
             {
-                // Kiểm tra ngày sinh hợp lệ (>= 12 tuổi)
+                // Ki?m tra ng�y sinh h?p l? (>= 12 tu?i)
                 if (request.DateOfBirth != null)
                 {
                     var today = DateTime.Today;
@@ -100,7 +100,7 @@ namespace Smoking.API.Controllers.Member
 
                     if (age < 12)
                     {
-                        return BadRequest(new { Error = "Người dùng phải từ 12 tuổi trở lên." });
+                        return BadRequest(new { Error = "Ngu?i d�ng ph?i t? 12 tu?i tr? l�n." });
                     }
                 }
 
@@ -114,7 +114,7 @@ namespace Smoking.API.Controllers.Member
                     request.DateOfBirth
                 );
 
-                return Ok(new { Message = "Cập nhật thông tin thành công." });
+                return Ok(new { Message = "C?p nh?t th�ng tin th�nh c�ng." });
             }
             catch (Exception ex)
             {

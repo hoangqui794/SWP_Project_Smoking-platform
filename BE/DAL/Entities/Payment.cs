@@ -1,4 +1,4 @@
-Ôªøusing System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,7 +24,7 @@ namespace Smoking.DAL.Entities
         [ForeignKey("PackageID")]
         public virtual MembershipPackage Package { get; set; } = null!;
 
-        // Foreign Key: UserMembership (nullable v√¨ ch·ªâ c√≥ khi thanh to√°n th√†nh c√¥ng)
+        // Foreign Key: UserMembership (nullable vÏ ch? cÛ khi thanh to·n th‡nh cÙng)
         public int? UserMembershipID { get; set; }
 
         [ForeignKey("UserMembershipID")]
@@ -34,7 +34,7 @@ namespace Smoking.DAL.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
 
-        public DateTime PaymentDate { get; set; } = DateTime.Now;
+        public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
 
         [Required, MaxLength(50)]
         public string PaymentMethod { get; set; } = null!;
