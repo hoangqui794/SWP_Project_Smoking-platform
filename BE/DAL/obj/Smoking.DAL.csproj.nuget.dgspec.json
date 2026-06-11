@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\DOC\\ky5\\SWP391\\BE\\DAL\\Smoking.DAL.csproj": {}
+    "D:\\My project\\SWP_Project_Smoking-platform\\BE\\DAL\\Smoking.DAL.csproj": {}
   },
   "projects": {
-    "D:\\DOC\\ky5\\SWP391\\BE\\DAL\\Smoking.DAL.csproj": {
+    "D:\\My project\\SWP_Project_Smoking-platform\\BE\\DAL\\Smoking.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\DOC\\ky5\\SWP391\\BE\\DAL\\Smoking.DAL.csproj",
+        "projectUniqueName": "D:\\My project\\SWP_Project_Smoking-platform\\BE\\DAL\\Smoking.DAL.csproj",
         "projectName": "Smoking.DAL",
-        "projectPath": "D:\\DOC\\ky5\\SWP391\\BE\\DAL\\Smoking.DAL.csproj",
+        "projectPath": "D:\\My project\\SWP_Project_Smoking-platform\\BE\\DAL\\Smoking.DAL.csproj",
         "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
-        "outputPath": "D:\\DOC\\ky5\\SWP391\\BE\\DAL\\obj\\",
+        "outputPath": "D:\\My project\\SWP_Project_Smoking-platform\\BE\\DAL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
@@ -91,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
