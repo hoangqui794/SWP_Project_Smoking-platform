@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,10 +12,10 @@ namespace Smoking.DAL.Entities
 
         [Required]
         public int UserID { get; set; }
-        public User User { get; set; } // M?i quan h? v?i User
+        public User User { get; set; } // Mối quan hệ với User
 
         [Required]
-        public string Message { get; set; }  // M� t? th�ng b�o
+        public string Message { get; set; }  // Mô tả thông báo
 
         public DateTime NotificationDate { get; set; } = DateTime.UtcNow;
         public bool IsRead { get; set; } = false;
@@ -23,14 +23,14 @@ namespace Smoking.DAL.Entities
 
 
         [Required, MaxLength(50)]
-        public string NotificationType { get; set; }  // Lo?i th�ng b�o (v� d?: th�ng b�o h? th?ng, nh?c nh?)
+        public string NotificationType { get; set; }  // Loại thông báo (ví dụ: thông báo hệ thống, nhắc nhở)
 
-        public DateTime SentAt { get; set; } = DateTime.UtcNow; // Ng�y g?i
+        public DateTime SentAt { get; set; } = DateTime.UtcNow; // Ngày gửi
 
-        // C�c tru?ng b? sung
-        public string NotificationName { get; set; }  // T�n th�ng b�o
-        public string Condition { get; set; }        // �i?u ki?n (c� th? l� tr?ng th�i, v� d? "Ch? x? l�", "�� g?i")
-        public string NotificationFor { get; set; }   // Th�ng b�o cho (v� d?: to�n b? ngu?i d�ng, theo vai tr�, theo email)
-        public string CreatedBy { get; set; }         // L?p b?i (thu?ng l� t�n admin ho?c h? th?ng)
+        // Các trường bổ sung
+        public string NotificationName { get; set; }  // Tên thông báo
+        public string Condition { get; set; }        // Điều kiện (có thể là trạng thái, ví dụ "Chờ xử lý", "Đã gửi")
+        public string NotificationFor { get; set; }   // Thông báo cho (ví dụ: toàn bộ người dùng, theo vai trò, theo email)
+        public string CreatedBy { get; set; }         // Lập bởi (thường là tên admin hoặc hệ thống)
     }
 }

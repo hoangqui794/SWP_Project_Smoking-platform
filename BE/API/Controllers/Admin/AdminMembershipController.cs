@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+ï»¿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Smoking.API.Models.Admin;
 using Smoking.API.Models.Admin.Smoking.API.Models.Admin;
@@ -20,7 +20,7 @@ namespace Smoking.API.Controllers.Admin
             _unitOfWork = unitOfWork;
         }
 
-        // L?y danh sách user membership
+        // Láº¥y danh sÃ¡ch user membership
         [HttpGet("users")]
         public async Task<IActionResult> GetAllUserMemberships()
         {
@@ -41,15 +41,15 @@ namespace Smoking.API.Controllers.Admin
             return Ok(result);
         }
 
-        // Gán gói thành viên cho user (Admin assign, không thanh toán)
+        // GÃ¡n gÃ³i thÃ nh viÃªn cho user (Admin assign, khÃ´ng thanh toÃ¡n)
         [HttpPost("assign")]
         public async Task<IActionResult> AssignMembershipToUser([FromBody] AdminUpdateMembershipDto dto)
         {
             var package = await _unitOfWork.MembershipPackages.GetByIdAsync(dto.PackageId);
-            if (package == null) return NotFound("Không tìm th?y gói");
+            if (package == null) return NotFound("KhÃ´ng tÃ¬m tháº¥y gÃ³i");
 
             var user = await _unitOfWork.Users.GetByIdAsync(dto.UserId);
-            if (user == null) return NotFound("Không tìm th?y ngu?i dùng");
+            if (user == null) return NotFound("KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng");
 
             var now = DateTime.UtcNow;
             var end = package.Duration > 0
@@ -79,10 +79,10 @@ namespace Smoking.API.Controllers.Admin
             }
 
             await _unitOfWork.CompleteAsync();
-            return Ok(new { message = "C?p nh?t thành công" });
+            return Ok(new { message = "Cáº­p nháº­t thÃ nh cÃ´ng" });
         }
 
-        // L?y danh sách t?t c? các gói
+        // Láº¥y danh sÃ¡ch táº¥t cáº£ cÃ¡c gÃ³i
         [HttpGet("packages")]
         public async Task<IActionResult> GetAllPackages()
         {
@@ -101,18 +101,18 @@ namespace Smoking.API.Controllers.Admin
             return Ok(result);
         }
 
-        // T?o gói thành viên m?i
+        // Táº¡o gÃ³i thÃ nh viÃªn má»›i
         [HttpPost("createpackages")]
         public async Task<IActionResult> CreatePackage([FromBody] AdminCreatePackageDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Ki?m tra tên gói dã t?n t?i chua
+            // Kiá»ƒm tra tÃªn gÃ³i Ä‘Ã£ tá»“n táº¡i chÆ°a
             var existing = await _unitOfWork.MembershipPackages
                 .FindFirstOrDefaultAsync(p => p.PackageName == dto.PackageName);
             if (existing != null)
-                return BadRequest("? Tên gói dã t?n t?i. Vui lòng ch?n tên khác.");
+                return BadRequest("âŒ TÃªn gÃ³i Ä‘Ã£ tá»“n táº¡i. Vui lÃ²ng chá»n tÃªn khÃ¡c.");
 
             var newPackage = new MembershipPackage
             {
@@ -126,16 +126,16 @@ namespace Smoking.API.Controllers.Admin
             await _unitOfWork.MembershipPackages.AddAsync(newPackage);
             await _unitOfWork.CompleteAsync();
 
-            return Ok(new { message = "? T?o gói thành công", newPackage });
+            return Ok(new { message = "âœ… Táº¡o gÃ³i thÃ nh cÃ´ng", newPackage });
         }
 
-        // C?p nh?t gói thành viên
+        // Cáº­p nháº­t gÃ³i thÃ nh viÃªn
         [HttpPut("Updatepackages/{id}")]
         public async Task<IActionResult> UpdatePackage(int id, [FromBody] MembershipPackage updatedPackage)
         {
             var package = await _unitOfWork.MembershipPackages.GetByIdAsync(id);
             if (package == null)
-                return NotFound("Không tìm th?y gói");
+                return NotFound("KhÃ´ng tÃ¬m tháº¥y gÃ³i");
 
             package.PackageName = updatedPackage.PackageName;
             package.PackageType = updatedPackage.PackageType;
@@ -146,25 +146,25 @@ namespace Smoking.API.Controllers.Admin
             _unitOfWork.MembershipPackages.Update(package);
             await _unitOfWork.CompleteAsync();
 
-            return Ok(new { message = "C?p nh?t gói thành công", package });
+            return Ok(new { message = "Cáº­p nháº­t gÃ³i thÃ nh cÃ´ng", package });
         }
 
-        // Xóa gói thành viên
+        // XÃ³a gÃ³i thÃ nh viÃªn
         [HttpDelete("Deletepackages/{id}")]
         public async Task<IActionResult> DeletePackage(int id)
         {
             var package = await _unitOfWork.MembershipPackages.GetByIdAsync(id);
             if (package == null)
-                return NotFound("Không tìm th?y gói");
+                return NotFound("KhÃ´ng tÃ¬m tháº¥y gÃ³i");
 
             var inUse = await _unitOfWork.UserMemberships.AnyAsync(m => m.PackageID == id);
             if (inUse)
-                return BadRequest("Không th? xoá vì có ngu?i dùng dang s? d?ng gói này.");
+                return BadRequest("KhÃ´ng thá»ƒ xoÃ¡ vÃ¬ cÃ³ ngÆ°á»i dÃ¹ng Ä‘ang sá»­ dá»¥ng gÃ³i nÃ y.");
 
             _unitOfWork.MembershipPackages.Remove(package);
             await _unitOfWork.CompleteAsync();
 
-            return Ok(new { message = "Xoá gói thành công" });
+            return Ok(new { message = "XoÃ¡ gÃ³i thÃ nh cÃ´ng" });
         }
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,10 +16,10 @@ namespace Smoking.DAL.Entities
 
         public string? Content { get; set; }
 
-        // Tr?ng th�i b�i vi?t: Pending, Approved, Rejected
+        // Trạng thái bài viết: Pending, Approved, Rejected
         public string Status { get; set; } = "Pending";
 
-        // Kh�a ngo?i - ID ngu?i d�ng (t�c gi?)
+        // Khóa ngoại - ID người dùng (tác giả)
         public int AuthorId { get; set; }
 
         [ForeignKey("AuthorId")]
@@ -33,7 +33,7 @@ namespace Smoking.DAL.Entities
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime? LastModifiedDate { get; set; }
 
-        // Th?ng k�
+        // Thống kê
         public int Likes { get; set; } = 0;
         public int Dislikes { get; set; } = 0;
         public int ReportCount { get; set; } = 0;

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+Ôªøusing Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Smoking.BLL.Interfaces;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace Smoking.API.Controllers.Member
 {
     [ApiController]
     [Route("api/user/notifications")]
-    [Authorize(Roles = "2")] // Ch? d‡nh cho Member
+    [Authorize(Roles = "2")] // Ch·ªâ d√†nh cho Member
     public class UserNotificationController : ControllerBase
     {
         private readonly INotificationService _notificationService;
@@ -19,7 +19,7 @@ namespace Smoking.API.Controllers.Member
             _notificationService = notificationService;
         }
 
-        // ? –?i route d? tr·nh tr˘ng
+        // ‚úÖ ƒê·ªïi route ƒë·ªÉ tr√°nh tr√πng
         [HttpGet("my")]
         public async Task<IActionResult> GetMyNotifications()
         {
@@ -38,7 +38,7 @@ namespace Smoking.API.Controllers.Member
             }));
         }
 
-        // [DELETE] XÛa thÙng b·o c?a chÌnh mÏnh
+        // [DELETE] X√≥a th√¥ng b√°o c·ªßa ch√≠nh m√¨nh
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMyNotification(int id)
         {
@@ -46,14 +46,14 @@ namespace Smoking.API.Controllers.Member
             var list = await _notificationService.GetByUserIdAsync(userId);
             var toDelete = list.FirstOrDefault(x => x.NotificationID == id);
             if (toDelete == null)
-                return NotFound(new { Message = "KhÙng tÏm th?y thÙng b·o." });
+                return NotFound(new { Message = "Kh√¥ng t√¨m th·∫•y th√¥ng b√°o." });
 
             var success = await _notificationService.DeleteAsync(id);
             return success
-                ? Ok(new { Message = "–„ xÛa thÙng b·o." })
-                : BadRequest(new { Message = "L?i khi xÛa." });
+                ? Ok(new { Message = "ƒê√£ x√≥a th√¥ng b√°o." })
+                : BadRequest(new { Message = "L·ªói khi x√≥a." });
         }
-        // [POST] –·nh d?u thÙng b·o l‡ d„ d?c
+        // [POST] ƒê√°nh d·∫•u th√¥ng b√°o l√† ƒë√£ ƒë·ªçc
         [HttpPost("{id}/read")]
         public async Task<IActionResult> MarkAsRead(int id)
         {
@@ -62,16 +62,16 @@ namespace Smoking.API.Controllers.Member
             var notification = notifications.FirstOrDefault(n => n.NotificationID == id);
 
             if (notification == null)
-                return NotFound(new { Message = "KhÙng tÏm th?y thÙng b·o." });
+                return NotFound(new { Message = "Kh√¥ng t√¨m th·∫•y th√¥ng b√°o." });
 
             if (!notification.IsRead)
             {
-                notification.IsRead = true; // –·nh d?u l‡ d„ d?c
-                notification.ReadAt = DateTime.UtcNow; // Ghi l?i th?i gian d„ d?c
+                notification.IsRead = true; // ƒê√°nh d·∫•u l√† ƒë√£ ƒë·ªçc
+                notification.ReadAt = DateTime.UtcNow; // Ghi l·∫°i th·ªùi gian ƒë√£ ƒë·ªçc
                 await _notificationService.UpdateAsync(notification); // Call service to update
             }
 
-            return Ok(new { Message = "–„ d·nh d?u l‡ d„ d?c." });
+            return Ok(new { Message = "ƒê√£ ƒë√°nh d·∫•u l√† ƒë√£ ƒë·ªçc." });
         }
 
 

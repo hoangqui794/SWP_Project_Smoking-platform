@@ -1,4 +1,4 @@
-using Smoking.DAL.Entities;
+﻿using Smoking.DAL.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,7 +16,7 @@ public class UserAchievement
 
     public DateTime AwardedDate { get; set; } = DateTime.UtcNow;
 
-    // M?i quan h? (navigation properties)
+    // Mối quan hệ (navigation properties)
     [ForeignKey("UserID")]
     public User User { get; set; }
 

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Smoking.BLL.Interfaces;
 using Smoking.DAL.Entities;
@@ -43,7 +43,7 @@ namespace Smoking.API.Controllers.Admin
             }));
         }
 
-        // L?y danh s�ch blog ch? duy?t
+        // Lấy danh sách blog chờ duyệt
         [HttpGet("pending")]
         public async Task<IActionResult> GetPendingBlogs()
         {
@@ -60,7 +60,7 @@ namespace Smoking.API.Controllers.Admin
             }));
         }
 
-        // L?y danh s�ch blog b? b�o c�o
+        // Lấy danh sách blog bị báo cáo
         [HttpGet("reported")]
         public async Task<IActionResult> GetReportedBlogs()
         {
@@ -77,7 +77,7 @@ namespace Smoking.API.Controllers.Admin
             }));
         }
 
-        // L?y danh s�ch blog d� duy?t (Approved)
+        // Lấy danh sách blog đã duyệt (Approved)
         [HttpGet("approved")]
         public async Task<IActionResult> GetApprovedBlogs()
         {
@@ -94,43 +94,43 @@ namespace Smoking.API.Controllers.Admin
             }));
         }
 
-        // Duy?t blog (approve)
+        // Duyệt blog (approve)
         [HttpPut("approve/{id}")]
         public async Task<IActionResult> ApproveBlog(int id)
         {
             var success = await _blogService.ApproveBlogAsync(id);
             if (!success) return NotFound();
-            return Ok(new { Message = "Blog d� du?c duy?t." });
+            return Ok(new { Message = "Blog đã được duyệt." });
         }
 
-        // T? ch?i blog (reject)
+        // Từ chối blog (reject)
         [HttpPut("reject/{id}")]
         public async Task<IActionResult> RejectBlog(int id)
         {
             var success = await _blogService.RejectBlogAsync(id);
             if (!success) return NotFound();
-            return Ok(new { Message = "Blog d� b? t? ch?i." });
+            return Ok(new { Message = "Blog đã bị từ chối." });
         }
 
-        // ��nh d?u b�i b�o c�o d� x? l�
+        // Đánh dấu bài báo cáo đã xử lý
         [HttpPut("reviewed/{id}")]
         public async Task<IActionResult> MarkBlogAsReviewed(int id)
         {
             var success = await _blogService.MarkBlogAsReviewedAsync(id);
             if (!success) return NotFound();
-            return Ok(new { Message = "�� d�nh d?u b�i vi?t d� x? l� b�o c�o." });
+            return Ok(new { Message = "Đã đánh dấu bài viết đã xử lý báo cáo." });
         }
 
-        // X�a blog
+        // Xóa blog
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteBlog(int id)
         {
             var success = await _blogService.DeleteAsync(id);
             if (!success) return NotFound();
-            return Ok(new { Message = "�� x�a blog." });
+            return Ok(new { Message = "Đã xóa blog." });
         }
 
-        // Admin t?o blog m?i
+        // Admin tạo blog mới
         [HttpPost("create")]
         public async Task<IActionResult> CreateBlog([FromBody] BlogCreateModel model)
         {
@@ -152,7 +152,7 @@ namespace Smoking.API.Controllers.Admin
             return Ok(created);
         }
 
-        // Th?ng k� blog
+        // Thống kê blog
         [HttpGet("stats")]
         public async Task<IActionResult> GetBlogStatistics()
         {

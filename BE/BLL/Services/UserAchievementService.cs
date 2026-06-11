@@ -1,4 +1,4 @@
-using Smoking.BLL.Interfaces;
+﻿using Smoking.BLL.Interfaces;
 using Smoking.DAL.Entities;
 using Smoking.DAL.Interfaces.Repositories;
 using System;
@@ -25,33 +25,33 @@ namespace Smoking.BLL.Services
 
         public async Task<bool> GrantAchievementAsync(int userId, int achievementId, bool sendEmail = true)
         {
-            // 1. Ki?m tra User
+            // 1. Kiểm tra User
             var user = await _unitOfWork.Users.GetByIdAsync(userId);
             if (user == null)
             {
-                Console.WriteLine($"? Kh�ng t�m th?y User v?i ID = {userId}");
+                Console.WriteLine($"❌ Không tìm thấy User với ID = {userId}");
                 return false;
             }
 
-            // 2. Ki?m tra Achievement
+            // 2. Kiểm tra Achievement
             var achievement = await _unitOfWork.Achievements.GetByIdAsync(achievementId);
             if (achievement == null)
             {
-                Console.WriteLine($"? Kh�ng t�m th?y Achievement v?i ID = {achievementId}");
+                Console.WriteLine($"❌ Không tìm thấy Achievement với ID = {achievementId}");
                 return false;
             }
 
-            // 3. Ki?m tra xem d� c?p th�nh t?u chua
+            // 3. Kiểm tra xem đã cấp thành tựu chưa
             var existedList = await _unitOfWork.UserAchievements
                 .FindAsync(x => x.UserID == userId && x.AchievementID == achievementId);
 
             if (existedList.Any())
             {
-                Console.WriteLine($"?? Th�nh t?u ID={achievementId} d� c?p cho User ID={userId} tru?c d�.");
+                Console.WriteLine($"⚠️ Thành tựu ID={achievementId} đã cấp cho User ID={userId} trước đó.");
                 return false;
             }
 
-            // 4. Th�m b?n ghi UserAchievement
+            // 4. Thêm bản ghi UserAchievement
             var userAchievement = new UserAchievement
             {
                 UserID = userId,
@@ -63,42 +63,42 @@ namespace Smoking.BLL.Services
             var savedAchievement = await _unitOfWork.CompleteAsync();
             if (savedAchievement <= 0)
             {
-                Console.WriteLine("? L?i khi luu UserAchievement.");
+                Console.WriteLine("❌ Lỗi khi lưu UserAchievement.");
                 return false;
             }
 
-            var message = $"B?n d� d?t th�nh t?u: {achievement.AchievementName}. Ti?p t?c c? g?ng nh�!";
+            var message = $"Bạn đã đạt thành tựu: {achievement.AchievementName}. Tiếp tục cố gắng nhé!";
             var notify = new Notification
             {
                 UserID = userId,
                 Message = message,
                 NotificationType = "Achievement",
-                NotificationName = "Th�nh t?u m?i",
+                NotificationName = "Thành tựu mới",
                 SentAt = DateTime.UtcNow,
-                Condition = "�� g?i",
-                NotificationFor = "C� nh�n",
+                Condition = "Đã gửi",
+                NotificationFor = "Cá nhân",
                 CreatedBy = "System"
             };
 
             await _notificationService.CreateAsync(notify);
             await _unitOfWork.CompleteAsync();
 
-            // 6. G?i email n?u c�
+            // 6. Gửi email nếu có
             if (sendEmail && !string.IsNullOrWhiteSpace(user.Email))
             {
                 try
                 {
-                    await _mailService.SendEmailAsync(user.Email, "B?n v?a d?t th�nh t?u m?i!", message);
-                    Console.WriteLine($"?? Email d� g?i t?i {user.Email}");
+                    await _mailService.SendEmailAsync(user.Email, "Bạn vừa đạt thành tựu mới!", message);
+                    Console.WriteLine($"📧 Email đã gửi tới {user.Email}");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"? G?i email th?t b?i: {ex.Message}");
-                    // Kh�ng throw l?i, v� kh�ng ?nh hu?ng t?i vi?c c?p th�nh t?u
+                    Console.WriteLine($"❗ Gửi email thất bại: {ex.Message}");
+                    // Không throw lỗi, vì không ảnh hưởng tới việc cấp thành tựu
                 }
             }
 
-            Console.WriteLine($"? Th�nh t?u ID={achievementId} d� c?p cho User ID={userId} th�nh c�ng.");
+            Console.WriteLine($"✅ Thành tựu ID={achievementId} đã cấp cho User ID={userId} thành công.");
             return true;
         }
 

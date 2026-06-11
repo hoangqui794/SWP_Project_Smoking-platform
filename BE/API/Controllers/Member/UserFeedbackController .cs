@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Smoking.BLL.Interfaces;
 using Smoking.DAL.Entities;
@@ -11,7 +11,7 @@ namespace Smoking.API.Controllers.Member
 {
     [Route("api/UserFeedback")]
     [ApiController]
-    [Authorize(Roles = "2")] // Ch? ngu?i d�ng (role = 2) m?i du?c ph�p
+    [Authorize(Roles = "2")] // Chỉ người dùng (role = 2) mới được phép
     public class UserFeedbackController : ControllerBase
     {
         private readonly IFeedbackService _feedbackService;
@@ -26,20 +26,20 @@ namespace Smoking.API.Controllers.Member
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userIdClaim == null || !int.TryParse(userIdClaim, out int userId))
             {
-                throw new UnauthorizedAccessException("Token kh�ng h?p l? ho?c thi?u user ID");
+                throw new UnauthorizedAccessException("Token không hợp lệ hoặc thiếu user ID");
             }
             return userId;
         }
 
-        // ?? T?o feedback
+        // 🟢 Tạo feedback
         [HttpPost("create")]
         public async Task<IActionResult> CreateFeedback([FromBody] FeedbackCreateDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.FeedbackContent))
-                return BadRequest("N?i dung kh�ng du?c d? tr?ng");
+                return BadRequest("Nội dung không được để trống");
 
             if (dto.Rating < 1 || dto.Rating > 5)
-                return BadRequest("Rating ph?i t? 1 d?n 5");
+                return BadRequest("Rating phải từ 1 đến 5");
 
             var userId = GetCurrentUserId();
 
@@ -58,7 +58,7 @@ namespace Smoking.API.Controllers.Member
 
 
 
-        // ?? L?y feedback c?a ch�nh m�nh
+        // 🔵 Lấy feedback của chính mình
         [HttpGet("my-feedback")]
         public async Task<IActionResult> GetMyFeedback()
         {
@@ -67,44 +67,44 @@ namespace Smoking.API.Controllers.Member
             return Ok(feedbacks);
         }
 
-        // ?? S?a feedback
+        // 🟠 Sửa feedback
         [HttpPut("edit/{id}")]
         public async Task<IActionResult> EditFeedback(int id, [FromBody] FeedbackCreateDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.FeedbackContent))
-                return BadRequest("N?i dung kh�ng du?c d? tr?ng");
+                return BadRequest("Nội dung không được để trống");
 
             if (dto.Rating < 1 || dto.Rating > 5)
-                return BadRequest("Rating ph?i t? 1 d?n 5");
+                return BadRequest("Rating phải từ 1 đến 5");
 
             var userId = GetCurrentUserId();
             var existing = await _feedbackService.GetByIdAsync(id);
 
             if (existing == null)
-                return NotFound("Feedback kh�ng t?n t?i");
+                return NotFound("Feedback không tồn tại");
             if (existing.UserID != userId)
-                return Forbid("Kh�ng th? s?a feedback c?a ngu?i kh�c");
+                return Forbid("Không thể sửa feedback của người khác");
 
             existing.FeedbackContent = dto.FeedbackContent;
             existing.Rating = dto.Rating;
 
             var updated = await _feedbackService.UpdateAsync(existing);
-            return updated ? Ok(existing) : BadRequest("C?p nh?t th?t b?i");
+            return updated ? Ok(existing) : BadRequest("Cập nhật thất bại");
         }
 
 
-        // ?? Xo� feedback
+        // 🔴 Xoá feedback
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteFeedback(int id)
         {
             var userId = GetCurrentUserId();
             var existing = await _feedbackService.GetByIdAsync(id);
 
-            if (existing == null) return NotFound("Feedback kh�ng t?n t?i");
-            if (existing.UserID != userId) return Forbid("Kh�ng th? xo� feedback c?a ngu?i kh�c");
+            if (existing == null) return NotFound("Feedback không tồn tại");
+            if (existing.UserID != userId) return Forbid("Không thể xoá feedback của người khác");
 
             var deleted = await _feedbackService.DeleteAsync(id);
-            return deleted ? Ok("Xo� th�nh c�ng") : BadRequest("Xo� th?t b?i");
+            return deleted ? Ok("Xoá thành công") : BadRequest("Xoá thất bại");
         }
     }
 }

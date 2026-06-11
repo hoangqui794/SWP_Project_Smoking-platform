@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,15 +11,15 @@ namespace Smoking.DAL.Entities
         public int ProgressID { get; set; }
 
         [Required]
-        public int QuitPlanID { get; set; }  // Kh�a ngo?i li�n k?t v?i QuitPlan
+        public int QuitPlanID { get; set; }  // Khóa ngoại liên kết với QuitPlan
         public QuitPlan QuitPlan { get; set; }
 
         public DateTime ProgressDate { get; set; }
 
-        // ? S? di?u ngu?i d�ng khai b�o ban d?u m?i ng�y
+        // ✅ Số điếu người dùng khai báo ban đầu mỗi ngày
         public int CigarettesPerDayBaseline { get; set; }
 
-        // ? Ti?n ti?t ki?m h�m d�
+        // ✅ Tiền tiết kiệm hôm đó
         public decimal MoneySaved { get; set; }
 
         public string Notes { get; set; }
@@ -28,10 +28,10 @@ namespace Smoking.DAL.Entities
 
         public DateTime? LastSmokeDate { get; set; }
 
-        // ? S? thu?c d� h�t trong ng�y
+        // ✅ Số thuốc đã hút trong ngày
         public int? CigarettesSmokedToday { get; set; }
 
-        // ? S? thu?c d� b? h�m d� = baseline - d� h�t
+        // ✅ Số thuốc đã bỏ hôm đó = baseline - đã hút
         public int? CigarettesDropped { get; set; }
         public int? TotalCigarettesDropped { get; set; }
         public decimal? TotalMoneySaved { get; set; }

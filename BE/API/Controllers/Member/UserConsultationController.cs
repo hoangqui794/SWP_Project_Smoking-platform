@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Smoking.API.Models.User;
 using Smoking.BLL.Interfaces;
@@ -30,7 +30,7 @@ namespace Smoking.API.Controllers.Member
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
             {
-                return Unauthorized(new { Message = "Ngu?i d�ng kh�ng h?p l?." });
+                return Unauthorized(new { Message = "Người dùng không hợp lệ." });
             }
 
             var consultationDate = string.IsNullOrWhiteSpace(request.ConsultationDate)
@@ -52,35 +52,35 @@ namespace Smoking.API.Controllers.Member
             {
                 return BadRequest(new
                 {
-                    Message = "Th?i gian tu v?n kh�ng h?p l?. �?nh d?ng y�u c?u: ng�y 'yyyy-MM-dd', gi? 'HH:mm' ho?c 'HH:mm:ss'.",
+                    Message = "Thời gian tư vấn không hợp lệ. Định dạng yêu cầu: ngày 'yyyy-MM-dd', giờ 'HH:mm' hoặc 'HH:mm:ss'.",
                     Received = combinedDateTime
                 });
             }
 
-            // ? Ngan d?t l?ch qu� s?m (ph?i t? ng�y mai tr? di)
+            // ✅ Ngăn đặt lịch quá sớm (phải từ ngày mai trở đi)
             if (consultationDateTime.Date <= DateTime.Today)
             {
-                return BadRequest(new { Message = "B?n ch? c� th? d?t l?ch t? ng�y mai tr? di." });
+                return BadRequest(new { Message = "Bạn chỉ có thể đặt lịch từ ngày mai trở đi." });
             }
 
-            // ? Gi?i h?n th?i gian d?t l?ch trong kho?ng 08:00 d?n 22:00
+            // ✅ Giới hạn thời gian đặt lịch trong khoảng 08:00 đến 22:00
             var startTime = new TimeSpan(8, 0, 0);
             var endTime = new TimeSpan(22, 0, 0);
             var selectedTime = consultationDateTime.TimeOfDay;
 
             if (selectedTime < startTime || selectedTime > endTime)
             {
-                return BadRequest(new { Message = "Th?i gian d?t l?ch ch? trong kho?ng 08:00 d?n 10:00." });
+                return BadRequest(new { Message = "Thời gian đặt lịch chỉ trong khoảng 08:00 đến 10:00." });
             }
 
-            // Ki?m tra Coach h?p l?
+            // Kiểm tra Coach hợp lệ
             var coach = await _unitOfWork.Users.GetByIdAsync(request.CoachId);
             if (coach == null || coach.RoleID != 3)
             {
-                return BadRequest(new { Message = "Coach kh�ng t?n t?i ho?c kh�ng h?p l?." });
+                return BadRequest(new { Message = "Coach không tồn tại hoặc không hợp lệ." });
             }
 
-            // Ki?m tra tr�ng l?ch
+            // Kiểm tra trùng lịch
             var existingBooking = await _unitOfWork.ConsultationBookings.GetAllAsync();
             var conflictingBooking = existingBooking.FirstOrDefault(booking =>
                 booking.CoachID == request.CoachId &&
@@ -89,10 +89,10 @@ namespace Smoking.API.Controllers.Member
 
             if (conflictingBooking != null)
             {
-                return BadRequest(new { Message = "Th?i gian n�y d� c� l?ch tu v?n. Vui l�ng ch?n th?i gian kh�c." });
+                return BadRequest(new { Message = "Thời gian này đã có lịch tư vấn. Vui lòng chọn thời gian khác." });
             }
 
-            // T?o m?i l?ch
+            // Tạo mới lịch
             var consultation = new ConsultationBooking
             {
                 UserID = userId,
@@ -107,41 +107,41 @@ namespace Smoking.API.Controllers.Member
             await _unitOfWork.ConsultationBookings.AddAsync(consultation);
             await _unitOfWork.CompleteAsync();
 
-            // G?i email cho ngu?i d�ng
+            // Gửi email cho người dùng
             var user = await _unitOfWork.Users.GetByIdAsync(userId);
             string formattedDateForUser = consultationDateTime.ToString("HH:mm dd-MM-yyyy");
             var emailBodyForUser = $@"
                 <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; background-color: #fefefe;'>
-                    <h2 style='color: #2c3e50;'>?? �?t l?ch tu v?n th�nh c�ng</h2>
+                    <h2 style='color: #2c3e50;'>📅 Đặt lịch tư vấn thành công</h2>
                     <p><strong>Coach:</strong> {coach.FullName}</p>
-                    <p><strong>Th?i gian tu v?n:</strong> {formattedDateForUser}</p>
-                    <p style='color: #888;'>C?m on b?n d� s? d?ng d?ch v? tu v?n c?a ch�ng t�i!</p>
+                    <p><strong>Thời gian tư vấn:</strong> {formattedDateForUser}</p>
+                    <p style='color: #888;'>Cảm ơn bạn đã sử dụng dịch vụ tư vấn của chúng tôi!</p>
                     <hr style='margin: 20px 0;'/>                  
                 </div>";
-            await _mailService.SendHtmlEmailAsync(user.Email, "�?t l?ch tu v?n th�nh c�ng", emailBodyForUser);
+            await _mailService.SendHtmlEmailAsync(user.Email, "Đặt lịch tư vấn thành công", emailBodyForUser);
 
-            // G?i email cho coach
+            // Gửi email cho coach
             var emailBodyForCoach = $@"
                 <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; background-color: #fefefe;'>
-                    <h2 style='color: #c0392b;'>?? L?ch tu v?n m?i</h2>
-                    <p><strong>Ngu?i d�ng:</strong> {user.FullName}</p>
-                    <p><strong>Th?i gian tu v?n:</strong> {formattedDateForUser}</p>
-                    <p style='color: #888;'>Vui l�ng x�c nh?n l?ch tu v?n v?i ngu?i d�ng tr�n h? th?ng.</p>
+                    <h2 style='color: #c0392b;'>📅 Lịch tư vấn mới</h2>
+                    <p><strong>Người dùng:</strong> {user.FullName}</p>
+                    <p><strong>Thời gian tư vấn:</strong> {formattedDateForUser}</p>
+                    <p style='color: #888;'>Vui lòng xác nhận lịch tư vấn với người dùng trên hệ thống.</p>
                     <hr style='margin: 20px 0;'/>                
                 </div>";
-            await _mailService.SendHtmlEmailAsync(coach.Email, "L?ch tu v?n m?i", emailBodyForCoach);
+            await _mailService.SendHtmlEmailAsync(coach.Email, "Lịch tư vấn mới", emailBodyForCoach);
 
-            return Ok(new { Message = "�?t l?ch tu v?n th�nh c�ng. Ch? Coach duy?t." });
+            return Ok(new { Message = "Đặt lịch tư vấn thành công. Chờ Coach duyệt." });
         }
 
-        // 2?? Xem l?ch tu v?n c?a ngu?i d�ng
+        // 2️⃣ Xem lịch tư vấn của người dùng
         [HttpGet("my-bookings")]
         public async Task<IActionResult> GetMyConsultations()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
             {
-                return Unauthorized(new { Message = "Ngu?i d�ng kh�ng h?p l?." });
+                return Unauthorized(new { Message = "Người dùng không hợp lệ." });
             }
 
             var consultations = await _unitOfWork.ConsultationBookings.GetByUserIdAsync(userId);
@@ -158,23 +158,23 @@ namespace Smoking.API.Controllers.Member
             }));
         }
 
-        // 3?? H?y l?ch tu v?n (N?u l?ch chua du?c x�c nh?n)
+        // 3️⃣ Hủy lịch tư vấn (Nếu lịch chưa được xác nhận)
         [HttpDelete("cancel/{bookingId}")]
         public async Task<IActionResult> CancelConsultation(int bookingId)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
-                return Unauthorized(new { Message = "Ngu?i d�ng kh�ng h?p l?." });
+                return Unauthorized(new { Message = "Người dùng không hợp lệ." });
 
             var consultation = await _unitOfWork.ConsultationBookings.GetByIdAsync(bookingId);
             if (consultation == null)
-                return NotFound(new { Message = "L?ch tu v?n kh�ng t?n t?i." });
+                return NotFound(new { Message = "Lịch tư vấn không tồn tại." });
 
             if (consultation.UserID != userId)
-                return BadRequest(new { Message = "B?n kh�ng th? h?y l?ch c?a ngu?i kh�c." });
+                return BadRequest(new { Message = "Bạn không thể hủy lịch của người khác." });
 
             if (consultation.Status != "Pending")
-                return BadRequest(new { Message = "Kh�ng th? h?y l?ch d� du?c duy?t ho?c d� ho�n th�nh." });
+                return BadRequest(new { Message = "Không thể hủy lịch đã được duyệt hoặc đã hoàn thành." });
 
             var bookingIdCopy = consultation.BookingID;
             consultation.Status = "Cancelled";
@@ -183,11 +183,11 @@ namespace Smoking.API.Controllers.Member
             await _unitOfWork.CompleteAsync();
 
             var userEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "noreply@example.com";
-            var message = $"L?ch tu v?n #{bookingIdCopy} c?a b?n d� b? hu?.";
+            var message = $"Lịch tư vấn #{bookingIdCopy} của bạn đã bị huỷ.";
 
-            await _mailService.SendEmailAsync(userEmail, "Hu? l?ch tu v?n", message);
+            await _mailService.SendEmailAsync(userEmail, "Huỷ lịch tư vấn", message);
 
-            return Ok(new { Message = "Hu? l?ch th�nh c�ng." });
+            return Ok(new { Message = "Huỷ lịch thành công." });
         }
     }
 }

@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,7 +24,7 @@ namespace Smoking.DAL.Entities
         [ForeignKey("PackageID")]
         public virtual MembershipPackage Package { get; set; } = null!;
 
-        // Foreign Key: UserMembership (nullable vÏ ch? cÛ khi thanh to·n th‡nh cÙng)
+        // Foreign Key: UserMembership (nullable v√¨ ch·ªâ c√≥ khi thanh to√°n th√†nh c√¥ng)
         public int? UserMembershipID { get; set; }
 
         [ForeignKey("UserMembershipID")]

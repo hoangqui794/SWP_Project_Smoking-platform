@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,7 +14,7 @@ namespace Smoking.DAL.Entities
         [Required]
         public int UserID { get; set; }
 
-        public virtual User User { get; set; }  // N?u d�ng lazy loading
+        public virtual User User { get; set; }  // Nếu dùng lazy loading
 
         public DateTime StartDate { get; set; }
 

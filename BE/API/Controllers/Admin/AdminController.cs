@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Smoking.BLL.Interfaces;
 using Smoking.DAL.Entities;
@@ -14,7 +14,7 @@ namespace Smoking.API.Controllers.Admin
 {
     [ApiController]
     [Route("api/Admin")]
-    [Authorize(Roles = "1")] // Ch? Admin (RoleID=1) du?c v�o
+    [Authorize(Roles = "1")] // Chỉ Admin (RoleID=1) được vào
     public class AdminController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -30,7 +30,7 @@ namespace Smoking.API.Controllers.Admin
 
 
 
-        // 1? L?y danh s�ch User
+        // 1️ Lấy danh sách User
         [HttpGet("ListUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -47,13 +47,13 @@ namespace Smoking.API.Controllers.Admin
             }));
         }
 
-        // 2? Xem chi ti?t 1 User
+        // 2️ Xem chi tiết 1 User
         [HttpGet("User")]
         public async Task<IActionResult> GetUserById(int id)
         {
             var user = await _unitOfWork.Users.GetByIdAsync(id);
             if (user == null)
-                return NotFound(new { Message = "User kh�ng t?n t?i." });
+                return NotFound(new { Message = "User không tồn tại." });
 
             return Ok(new
             {
@@ -66,7 +66,7 @@ namespace Smoking.API.Controllers.Admin
             });
         }
 
-        // 3? C?p nh?t th�ng tin User (VD: thay d?i Status)
+        // 3️ Cập nhật thông tin User (VD: thay đổi Status)
         [HttpPut("UpdateStatus")]
         public async Task<IActionResult> UpdateUserStatus(int id, [FromBody] string newStatus)
         {
@@ -76,7 +76,7 @@ namespace Smoking.API.Controllers.Admin
             {
                 return BadRequest(new
                 {
-                    Message = "Tr?ng th�i kh�ng h?p l?. Ch? du?c ph�p: Active, InActive"
+                    Message = "Trạng thái không hợp lệ. Chỉ được phép: Active, InActive"
                 });
             }
 
@@ -86,19 +86,19 @@ namespace Smoking.API.Controllers.Admin
             {
                 if (id == currentUserId)
                 {
-                    return BadRequest(new { Message = "B?n kh�ng th? t? thay d?i tr?ng th�i c?a ch�nh m�nh." });
+                    return BadRequest(new { Message = "Bạn không thể tự thay đổi trạng thái của chính mình." });
                 }
             }
 
             var user = await _unitOfWork.Users.GetByIdAsync(id);
             if (user == null)
-                return NotFound(new { Message = "User kh�ng t?n t?i." });
+                return NotFound(new { Message = "User không tồn tại." });
 
             user.Status = newStatus;
             _unitOfWork.Users.Update(user);
             await _unitOfWork.CompleteAsync();
 
-            return Ok(new { Message = "C?p nh?t tr?ng th�i User th�nh c�ng." });
+            return Ok(new { Message = "Cập nhật trạng thái User thành công." });
         }
 
 
@@ -108,14 +108,14 @@ namespace Smoking.API.Controllers.Admin
         {
             var user = await _unitOfWork.Users.GetByIdAsync(id);
             if (user == null)
-                return NotFound(new { Message = "User kh�ng t?n t?i." });
+                return NotFound(new { Message = "User không tồn tại." });
             var currentUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (int.TryParse(currentUserIdClaim, out int currentUserId))
             {
                 if (id == currentUserId)
                 {
-                    return BadRequest(new { Message = "B?n kh�ng th? t? thay d?i tr?ng th�i c?a ch�nh m�nh." });
+                    return BadRequest(new { Message = "Bạn không thể tự thay đổi trạng thái của chính mình." });
                 }
             }
             user.Status = "InActive";
@@ -123,51 +123,51 @@ namespace Smoking.API.Controllers.Admin
             _unitOfWork.Users.Update(user);
             await _unitOfWork.CompleteAsync();
 
-            return Ok(new { Message = "Ngu?i d�ng d� du?c v� hi?u h�a (InActive)." });
+            return Ok(new { Message = "Người dùng đã được vô hiệu hóa (InActive)." });
         }
 
 
 
-        // 7? (Optional) C?p nh?t Role cho User
+        // 7️ (Optional) Cập nhật Role cho User
         [HttpPut("UpdateRole")]
         public async Task<IActionResult> UpdateUserRole(int id, [FromBody] int newRoleId)
         {
             var user = await _unitOfWork.Users.GetByIdAsync(id);
             if (user == null)
-                return NotFound(new { Message = "User kh�ng t?n t?i." });
-            // L?y UserID c?a ngu?i dang dang nh?p t? JWT
+                return NotFound(new { Message = "User không tồn tại." });
+            // Lấy UserID của người đang đăng nhập từ JWT
             var currentUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (int.TryParse(currentUserIdClaim, out int currentUserId))
             {
                 if (id == currentUserId)
                 {
-                    return BadRequest(new { Message = "B?n kh�ng th? t? thay d?i tr?ng th�i c?a ch�nh m�nh." });
+                    return BadRequest(new { Message = "Bạn không thể tự thay đổi trạng thái của chính mình." });
                 }
             }
             user.RoleID = newRoleId;
             _unitOfWork.Users.Update(user);
             await _unitOfWork.CompleteAsync();
 
-            return Ok(new { Message = "C?p nh?t Role cho User th�nh c�ng." });
+            return Ok(new { Message = "Cập nhật Role cho User thành công." });
         }
 
-        //8. Th�m m?i User
+        //8. Thêm mới User
         [HttpPost("AddUser")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {
             var existing = await _unitOfWork.Users.GetByEmailAsync(request.Email);
             if (existing != null)
-                return BadRequest(new { Message = "Email d� t?n t?i." });
+                return BadRequest(new { Message = "Email đã tồn tại." });
 
-            // Bam m?t kh?u tru?c khi luu
+            // Băm mật khẩu trước khi lưu
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
             var user = new User
             {
                 FullName = request.FullName,
                 Email = request.Email,
-                Password = hashedPassword, // d� m� ho�
+                Password = hashedPassword, // đã mã hoá
                 PhoneNumber = request.PhoneNumber,
                 Status = "Active",
                 RoleID = request.RoleID
@@ -176,7 +176,7 @@ namespace Smoking.API.Controllers.Admin
             await _unitOfWork.Users.AddAsync(user);
             await _unitOfWork.CompleteAsync();
 
-            return Ok(new { Message = "T?o User th�nh c�ng." });
+            return Ok(new { Message = "Tạo User thành công." });
         }
 
         //[HttpPut("approve-coach-change/{userId}")]
@@ -185,25 +185,25 @@ namespace Smoking.API.Controllers.Admin
         //{
         //    var user = await _unitOfWork.Users.GetByIdAsync(userId);
         //    if (user == null || user.PendingCoachId == null)
-        //        return NotFound(new { Message = "Kh�ng c� y�u c?u d?i coach n�o dang ch? duy?t." });
+        //        return NotFound(new { Message = "Không có yêu cầu đổi coach nào đang chờ duyệt." });
 
-        //    // L?y th�ng tin coach m?i
+        //    // Lấy thông tin coach mới
         //    var newCoach = await _unitOfWork.Users.GetByIdAsync(user.PendingCoachId.Value);
         //    if (newCoach == null)
-        //        return NotFound(new { Message = "Hu?n luy?n vi�n m?i kh�ng t?n t?i." });
+        //        return NotFound(new { Message = "Huấn luyện viên mới không tồn tại." });
 
-        //    // C?p nh?t coach m?i cho user
+        //    // Cập nhật coach mới cho user
         //    user.CoachId = user.PendingCoachId;
         //    user.PendingCoachId = null;
-        //    user.CoachChangeReason = null; // ?? Xo� l� do sau khi duy?t
+        //    user.CoachChangeReason = null; // ✔️ Xoá lý do sau khi duyệt
 
         //    _unitOfWork.Users.Update(user);
 
-        //    // Th�ng b�o
+        //    // Thông báo
         //    var notification = new Notification
         //    {
-        //        NotificationName = "�� duy?t d?i hu?n luy?n vi�n",
-        //        Message = $"Y�u c?u d?i coach c?a b?n sang {newCoach.FullName} d� du?c ch?p nh?n.",
+        //        NotificationName = "Đã duyệt đổi huấn luyện viên",
+        //        Message = $"Yêu cầu đổi coach của bạn sang {newCoach.FullName} đã được chấp nhận.",
         //        CreatedBy = "Admin",
         //        NotificationType = "CoachChangeApproved",
         //        NotificationFor = "Member",
@@ -213,13 +213,13 @@ namespace Smoking.API.Controllers.Admin
         //    };
         //    await _unitOfWork.Notifications.AddAsync(notification);
 
-        //    // G?i email
-        //    await _mailService.SendEmailAsync(user.Email, "Y�u c?u d?i coach d� du?c duy?t",
-        //        $"Ch�o {user.FullName},\n\nY�u c?u d?i sang hu?n luy?n vi�n {newCoach.FullName} c?a b?n d� du?c duy?t.");
+        //    // Gửi email
+        //    await _mailService.SendEmailAsync(user.Email, "Yêu cầu đổi coach đã được duyệt",
+        //        $"Chào {user.FullName},\n\nYêu cầu đổi sang huấn luyện viên {newCoach.FullName} của bạn đã được duyệt.");
 
         //    await _unitOfWork.CompleteAsync();
 
-        //    return Ok(new { Message = "�� duy?t d?i hu?n luy?n vi�n cho ngu?i d�ng." });
+        //    return Ok(new { Message = "Đã duyệt đổi huấn luyện viên cho người dùng." });
         //}
 
         [HttpPut("approve-coach-change/{userId}")]
@@ -227,7 +227,7 @@ namespace Smoking.API.Controllers.Admin
         {
             var user = await _unitOfWork.Users.GetByIdAsync(userId);
             if (user == null || user.PendingCoachId == null)
-                return NotFound(new { Message = "Kh�ng c� y�u c?u d?i/h?y coach n�o dang ch? duy?t." });
+                return NotFound(new { Message = "Không có yêu cầu đổi/hủy coach nào đang chờ duyệt." });
 
             var isCancelRequest = user.PendingCoachId == -1;
             string htmlBody;
@@ -237,54 +237,54 @@ namespace Smoking.API.Controllers.Admin
             {
                 var oldCoach = await _unitOfWork.Users.GetByIdAsync(user.CoachId.Value);
 
-                // ? H?y coach
+                // ✅ Hủy coach
                 user.CoachId = null;
                 user.PendingCoachId = null;
                 user.CoachChangeReason = null;
 
-                subject = "�� duy?t y�u c?u h?y hu?n luy?n vi�n";
+                subject = "Đã duyệt yêu cầu hủy huấn luyện viên";
                 htmlBody = $@"
         <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #fffaf5;'>
-            <h2 style='color: #c0392b;'>Y�u c?u h?y hu?n luy?n vi�n d� du?c duy?t</h2>
-            <p>Xin ch�o <strong>{user.FullName}</strong>,</p>
-            <p>Ch�ng t�i x�c nh?n r?ng y�u c?u h?y hu?n luy?n vi�n <strong>{oldCoach?.FullName}</strong> d� du?c <strong>duy?t</strong>.</p>
-            <p>H? th?ng hi?n kh�ng c�n hu?n luy?n vi�n d?ng h�nh c�ng b?n. B?n c� th? ch?n hu?n luy?n vi�n m?i b?t k? l�c n�o.</p>
+            <h2 style='color: #c0392b;'>Yêu cầu hủy huấn luyện viên đã được duyệt</h2>
+            <p>Xin chào <strong>{user.FullName}</strong>,</p>
+            <p>Chúng tôi xác nhận rằng yêu cầu hủy huấn luyện viên <strong>{oldCoach?.FullName}</strong> đã được <strong>duyệt</strong>.</p>
+            <p>Hệ thống hiện không còn huấn luyện viên đồng hành cùng bạn. Bạn có thể chọn huấn luyện viên mới bất kỳ lúc nào.</p>
             <hr />
-            <p style='color: #888; font-size: 13px;'>Smoking App � 2025 � H? th?ng h? tr? cai thu?c</p>
+            <p style='color: #888; font-size: 13px;'>Smoking App © 2025 — Hệ thống hỗ trợ cai thuốc</p>
         </div>";
             }
             else
             {
-                // ? Duy?t d?i sang coach m?i
+                // ✅ Duyệt đổi sang coach mới
                 var newCoach = await _unitOfWork.Users.GetByIdAsync(user.PendingCoachId.Value);
                 if (newCoach == null || newCoach.RoleID != 3)
-                    return BadRequest(new { Message = "Hu?n luy?n vi�n m?i kh�ng h?p l?." });
+                    return BadRequest(new { Message = "Huấn luyện viên mới không hợp lệ." });
 
                 user.CoachId = newCoach.UserID;
                 user.PendingCoachId = null;
                 user.CoachChangeReason = null;
 
-                subject = "�� duy?t y�u c?u d?i hu?n luy?n vi�n";
+                subject = "Đã duyệt yêu cầu đổi huấn luyện viên";
                 htmlBody = $@"
         <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f5fcff;'>
-            <h2 style='color: #2980b9;'>Y�u c?u d?i hu?n luy?n vi�n d� du?c duy?t</h2>
-            <p>Xin ch�o <strong>{user.FullName}</strong>,</p>
-            <p>Ch�ng t�i x�c nh?n r?ng b?n d� du?c d?i sang hu?n luy?n vi�n <strong>{newCoach.FullName}</strong>.</p>
-            <p>Ch�c b?n d?t du?c k?t qu? t?t trong h�nh tr�nh cai thu?c.</p>
+            <h2 style='color: #2980b9;'>Yêu cầu đổi huấn luyện viên đã được duyệt</h2>
+            <p>Xin chào <strong>{user.FullName}</strong>,</p>
+            <p>Chúng tôi xác nhận rằng bạn đã được đổi sang huấn luyện viên <strong>{newCoach.FullName}</strong>.</p>
+            <p>Chúc bạn đạt được kết quả tốt trong hành trình cai thuốc.</p>
             <hr />
-            <p style='color: #888; font-size: 13px;'>Smoking App � 2025 � H? th?ng h? tr? cai thu?c</p>
+            <p style='color: #888; font-size: 13px;'>Smoking App © 2025 — Hệ thống hỗ trợ cai thuốc</p>
         </div>";
             }
 
             _unitOfWork.Users.Update(user);
 
-            // ? T?o th�ng b�o
+            // ✅ Tạo thông báo
             var notification = new Notification
             {
-                NotificationName = isCancelRequest ? "�� duy?t h?y hu?n luy?n vi�n" : "�� duy?t d?i hu?n luy?n vi�n",
+                NotificationName = isCancelRequest ? "Đã duyệt hủy huấn luyện viên" : "Đã duyệt đổi huấn luyện viên",
                 Message = isCancelRequest
-                    ? "Y�u c?u h?y hu?n luy?n vi�n c?a b?n d� du?c ch?p nh?n."
-                    : $"Y�u c?u d?i hu?n luy?n vi�n sang {user.CoachId} d� du?c ch?p nh?n.",
+                    ? "Yêu cầu hủy huấn luyện viên của bạn đã được chấp nhận."
+                    : $"Yêu cầu đổi huấn luyện viên sang {user.CoachId} đã được chấp nhận.",
                 CreatedBy = "Admin",
                 NotificationType = isCancelRequest ? "CoachCancelApproved" : "CoachChangeApproved",
                 NotificationFor = "Member",
@@ -294,38 +294,38 @@ namespace Smoking.API.Controllers.Admin
             };
             await _unitOfWork.Notifications.AddAsync(notification);
 
-            // ? G?i email
+            // ✅ Gửi email
             await _mailService.SendHtmlEmailAsync(user.Email, subject, htmlBody);
 
             await _unitOfWork.CompleteAsync();
 
-            return Ok(new { Message = "Duy?t y�u c?u hu?n luy?n vi�n th�nh c�ng." });
+            return Ok(new { Message = "Duyệt yêu cầu huấn luyện viên thành công." });
         }
 
-        // H?y y�u c?u ch? duy?t d?i hu?n luy?n vi�n
+        // Hủy yêu cầu chờ duyệt đổi huấn luyện viên
         [HttpDelete("cancel-coach-change/{userId}")]
         public async Task<IActionResult> CancelCoachChange(int userId)
         {
-            // T�m ngu?i d�ng d?a tr�n userId
+            // Tìm người dùng dựa trên userId
             var user = await _unitOfWork.Users.GetByIdAsync(userId);
 
-            // N?u ngu?i d�ng kh�ng t?n t?i ho?c kh�ng c� y�u c?u d?i hu?n luy?n vi�n n�o
+            // Nếu người dùng không tồn tại hoặc không có yêu cầu đổi huấn luyện viên nào
             if (user == null || user.PendingCoachId == null)
-                return NotFound(new { Message = "Kh�ng c� y�u c?u d?i hu?n luy?n vi�n n�o dang ch? duy?t." });
+                return NotFound(new { Message = "Không có yêu cầu đổi huấn luyện viên nào đang chờ duyệt." });
 
-            // X�a y�u c?u pending
+            // Xóa yêu cầu pending
             user.PendingCoachId = null;
             user.CoachChangeReason = null;
 
-            // C?p nh?t th�ng tin ngu?i d�ng
+            // Cập nhật thông tin người dùng
             _unitOfWork.Users.Update(user);
             await _unitOfWork.CompleteAsync();
 
-            // T?o th�ng b�o cho ngu?i d�ng
+            // Tạo thông báo cho người dùng
             var notification = new Notification
             {
-                NotificationName = "�� h?y y�u c?u d?i hu?n luy?n vi�n",
-                Message = "Y�u c?u d?i hu?n luy?n vi�n c?a b?n d� b? h?y.",
+                NotificationName = "Đã hủy yêu cầu đổi huấn luyện viên",
+                Message = "Yêu cầu đổi huấn luyện viên của bạn đã bị hủy.",
                 CreatedBy = "Admin",
                 NotificationType = "CoachChangeCanceled",
                 NotificationFor = "Member",
@@ -335,15 +335,15 @@ namespace Smoking.API.Controllers.Admin
             };
             await _unitOfWork.Notifications.AddAsync(notification);
 
-            // G?i email th�ng b�o cho ngu?i d�ng
-            await _mailService.SendEmailAsync(user.Email, "Y�u c?u d?i hu?n luy?n vi�n d� b? h?y",
-                $"Ch�o {user.FullName},\n\nY�u c?u d?i hu?n luy?n vi�n c?a b?n d� b? h?y. B?n c� th? g?i y�u c?u d?i hu?n luy?n vi�n m?i n?u c?n.");
+            // Gửi email thông báo cho người dùng
+            await _mailService.SendEmailAsync(user.Email, "Yêu cầu đổi huấn luyện viên đã bị hủy",
+                $"Chào {user.FullName},\n\nYêu cầu đổi huấn luyện viên của bạn đã bị hủy. Bạn có thể gửi yêu cầu đổi huấn luyện viên mới nếu cần.");
 
-            // Luu c�c thay d?i v�o co s? d? li?u
+            // Lưu các thay đổi vào cơ sở dữ liệu
             await _unitOfWork.CompleteAsync();
 
-            // Tr? v? k?t qu? th�nh c�ng
-            return Ok(new { Message = "�� h?y y�u c?u d?i hu?n luy?n vi�n th�nh c�ng." });
+            // Trả về kết quả thành công
+            return Ok(new { Message = "Đã hủy yêu cầu đổi huấn luyện viên thành công." });
         }
 
 

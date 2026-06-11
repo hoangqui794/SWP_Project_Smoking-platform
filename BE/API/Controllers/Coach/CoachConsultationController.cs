@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Smoking.API.Models.Coach;
 using Smoking.BLL.Interfaces;
@@ -46,7 +46,7 @@ namespace Smoking.API.Controllers.Coach
         {
             var booking = await _unitOfWork.ConsultationBookings.GetByIdAsync(bookingId);
             if (booking == null || booking.Status != "Pending")
-                return BadRequest(new { Message = "L?ch kh�ng t?n t?i ho?c kh�ng th? duy?t." });
+                return BadRequest(new { Message = "Lịch không tồn tại hoặc không thể duyệt." });
 
             booking.Status = "Approved";
             if (!string.IsNullOrWhiteSpace(request.MeetingLink))
@@ -60,28 +60,28 @@ namespace Smoking.API.Controllers.Coach
             var user = await _unitOfWork.Users.GetByIdAsync(booking.UserID);
             if (user != null && !string.IsNullOrWhiteSpace(user.Email))
             {
-                string subject = "L?ch tu v?n d� du?c duy?t";
-                string body = $"Xin ch�o {user.FullName},\n\n"
-                            + "Cu?c h?n tu v?n cai thu?c c?a b?n d� du?c chuy�n gia ch?p thu?n.\n";
+                string subject = "Lịch tư vấn đã được duyệt";
+                string body = $"Xin chào {user.FullName},\n\n"
+                            + "Cuộc hẹn tư vấn cai thuốc của bạn đã được chuyên gia chấp thuận.\n";
 
                 if (!string.IsNullOrWhiteSpace(booking.MeetingLink))
                 {
-                    body += $"Link cu?c h?p: {booking.MeetingLink}\n";
+                    body += $"Link cuộc họp: {booking.MeetingLink}\n";
                 }
 
-                body += "\nH�y d?m b?o c� m?t d�ng gi? d? bu?i tu v?n hi?u qu?.\n"
-                      + "Tr�n tr?ng,\nH? th?ng h? tr? cai thu?c - QuitSmart";
+                body += "\nHãy đảm bảo có mặt đúng giờ để buổi tư vấn hiệu quả.\n"
+                      + "Trân trọng,\nHệ thống hỗ trợ cai thuốc - QuitSmart";
 
                 await _mailService.SendEmailAsync(user.Email, subject, body);
 
-                // ? Th�ng b�o d�ng n?i dung
+                // ✅ Thông báo đúng nội dung
                 await _unitOfWork.Notifications.CreateNotificationAsync(new Notification
                 {
                     UserID = booking.UserID,
-                    Message = "Cu?c h?n tu v?n c?a b?n d� du?c duy?t.",
+                    Message = "Cuộc hẹn tư vấn của bạn đã được duyệt.",
                     NotificationType = "Consultation",
                     SentAt = DateTime.UtcNow,
-                    NotificationName = "L?ch d� du?c duy?t",
+                    NotificationName = "Lịch đã được duyệt",
                     CreatedBy = "Coach",
                     NotificationFor = "Member",
                     Condition = "Approved"
@@ -90,7 +90,7 @@ namespace Smoking.API.Controllers.Coach
                 await _unitOfWork.CompleteAsync();
             }
 
-            return Ok(new { Message = "Duy?t l?ch th�nh c�ng." });
+            return Ok(new { Message = "Duyệt lịch thành công." });
         }
 
 
@@ -100,38 +100,38 @@ namespace Smoking.API.Controllers.Coach
         {
             var booking = await _unitOfWork.ConsultationBookings.GetByIdAsync(bookingId);
             if (booking == null || booking.Status != "Pending")
-                return BadRequest(new { Message = "Kh�ng th? t? ch?i." });
+                return BadRequest(new { Message = "Không thể từ chối." });
 
             booking.Status = "Rejected";
             _unitOfWork.ConsultationBookings.Update(booking);
             await _unitOfWork.CompleteAsync();
 
-            // G?i mail
+            // Gửi mail
             var user = await _unitOfWork.Users.GetByIdAsync(booking.UserID);
             if (user != null && !string.IsNullOrWhiteSpace(user.Email))
             {
-                string subject = "L?ch tu v?n b? t? ch?i";
-                string body = $"Xin ch�o {user.FullName},\n\nL?ch tu v?n b?n d?t d� b? t? ch?i b?i hu?n luy?n vi�n.\n"
-                            + "Vui l�ng d?t l?i l?ch kh�c.\n\nTr�n tr?ng,\nH? th?ng QuitSmart";
+                string subject = "Lịch tư vấn bị từ chối";
+                string body = $"Xin chào {user.FullName},\n\nLịch tư vấn bạn đặt đã bị từ chối bởi huấn luyện viên.\n"
+                            + "Vui lòng đặt lại lịch khác.\n\nTrân trọng,\nHệ thống QuitSmart";
 
                 await _mailService.SendEmailAsync(user.Email, subject, body);
             }
 
-            // G?i th�ng b�o l�n h? th?ng
+            // Gửi thông báo lên hệ thống
             await _unitOfWork.Notifications.CreateNotificationAsync(new Notification
             {
                 UserID = booking.UserID,
-                Message = "L?ch tu v?n c?a b?n d� b? t? ch?i. Vui l�ng d?t l?i l?ch m?i.",
+                Message = "Lịch tư vấn của bạn đã bị từ chối. Vui lòng đặt lại lịch mới.",
                 NotificationType = "Consultation",
                 SentAt = DateTime.UtcNow,
-                NotificationName = "L?ch b? t? ch?i",
+                NotificationName = "Lịch bị từ chối",
                 CreatedBy = "Coach",
                 NotificationFor = "Member",
                 Condition = "Rejected"
             });
 
             await _unitOfWork.CompleteAsync();
-            return Ok(new { Message = "�� t? ch?i l?ch." });
+            return Ok(new { Message = "Đã từ chối lịch." });
         }
 
 
@@ -152,34 +152,34 @@ namespace Smoking.API.Controllers.Coach
             var user = await _unitOfWork.Users.GetByIdAsync(booking.UserID);
             if (user != null && !string.IsNullOrWhiteSpace(user.Email))
             {
-                string subject = "C?p nh?t th�ng tin cu?c h?n";
-                string body = $"Xin ch�o {user.FullName},\n\n"
-                            + "Th�ng tin cu?c h?n tu v?n c?a b?n d� du?c chuy�n gia c?p nh?t.\n";
+                string subject = "Cập nhật thông tin cuộc hẹn";
+                string body = $"Xin chào {user.FullName},\n\n"
+                            + "Thông tin cuộc hẹn tư vấn của bạn đã được chuyên gia cập nhật.\n";
 
                 if (!string.IsNullOrWhiteSpace(booking.MeetingLink))
                 {
-                    body += $"Link h?p m?i: {booking.MeetingLink}\n";
+                    body += $"Link họp mới: {booking.MeetingLink}\n";
                 }
 
-                body += "\nVui l�ng ki?m tra v� tham gia d�ng gi?.\n"
-                      + "Tr�n tr?ng,\nH? th?ng h? tr? cai thu?c - QuitSmart";
+                body += "\nVui lòng kiểm tra và tham gia đúng giờ.\n"
+                      + "Trân trọng,\nHệ thống hỗ trợ cai thuốc - QuitSmart";
 
                 await _mailService.SendEmailAsync(user.Email, subject, body);
-            }  // G?i th�ng b�o l�n h? th?ng
+            }  // Gửi thông báo lên hệ thống
             await _unitOfWork.Notifications.CreateNotificationAsync(new Notification
             {
                 UserID = booking.UserID,
-                Message = "Th�ng tin cu?c h?n tu v?n c?a b?n d� du?c c?p nh?t.",
+                Message = "Thông tin cuộc hẹn tư vấn của bạn đã được cập nhật.",
                 NotificationType = "Consultation",
                 SentAt = DateTime.UtcNow,
-                NotificationName = "C?p nh?t cu?c h?n",
+                NotificationName = "Cập nhật cuộc hẹn",
                 CreatedBy = "Coach",
                 NotificationFor = "Member",
                 Condition = "Updated"
             });
             await _unitOfWork.CompleteAsync();
 
-            return Ok(new { Message = "�� c?p nh?t th�ng tin cu?c h?n." });
+            return Ok(new { Message = "Đã cập nhật thông tin cuộc hẹn." });
         }
 
 
@@ -188,24 +188,24 @@ namespace Smoking.API.Controllers.Coach
         {
             var booking = await _unitOfWork.ConsultationBookings.GetByIdAsync(bookingId);
             if (booking == null || booking.Status != "Approved")
-                return BadRequest(new { Message = "Ch? c� th? ho�n th�nh l?ch d� du?c duy?t." });
+                return BadRequest(new { Message = "Chỉ có thể hoàn thành lịch đã được duyệt." });
 
             booking.Status = "Completed";
             _unitOfWork.ConsultationBookings.Update(booking);
             await _unitOfWork.Notifications.CreateNotificationAsync(new Notification
             {
                 UserID = booking.UserID,
-                Message = "Cu?c h?n tu v?n c?a b?n d� du?c d�nh d?u ho�n th�nh.",
+                Message = "Cuộc hẹn tư vấn của bạn đã được đánh dấu hoàn thành.",
                 NotificationType = "Consultation",
                 SentAt = DateTime.UtcNow,
-                NotificationName = "Ho�n th�nh tu v?n",
+                NotificationName = "Hoàn thành tư vấn",
                 CreatedBy = "Coach",
                 NotificationFor = "Member",
                 Condition = "Completed"
             });
             await _unitOfWork.CompleteAsync();
 
-            return Ok(new { Message = "�� d�nh d?u ho�n th�nh." });
+            return Ok(new { Message = "Đã đánh dấu hoàn thành." });
         }
     }
 }
